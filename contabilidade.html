@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contabilidade</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* animação suave da seta */
+    .arrow {
+      opacity: 0;
+      transform: translateX(-5px);
+      transition: all 0.2s ease;
+    }
+
+    /* seta aparece no hover */
+    .sidebar-item:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* esconde a seta quando a sidebar está recolhida */
+    #sidebar.w-16 .arrow {
+      display: none !important;
+    }
+    .sidebar-collapsed .sidebar-item {
+    justify-content: center;
+  }
+  .sidebar-collapsed .sidebar-icon {
+    margin-right: 0 !important;
+  }
+  </style>
+
+</head>
+<body>
+  <div id="container" class="flex h-screen bg-[#2C3E50]">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-64 bg-[#2C3E50] text-white flex flex-col transition-all duration-300">
+      <div class="flex items-center h-16 px-6 border-b border-gray-700">
+        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+          <!-- Logo Icon -->
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+        </div>
+      </div>
+      <nav class="flex-1 mt-4">
+        <ul>
+          <li>
+            <a href="index.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-gauge mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Dashboard</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="funcionarios.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-users mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Funcionários</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="agenda.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-calendar-days mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Agenda</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="cliente.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-user mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Clientes</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="materiais.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-boxes-stacked mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Materiais</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="contabilidade.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-wallet mr-3 sidebar-icon"></i>
+                <span class="sidebar-text text-white">Financeiro</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-comments mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Chat</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="opcoes.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-gear mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Configurações</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Toggle Button -->
+      <div class="p-4 border-t border-gray-700">
+        <button id="toggleSidebar" class="p-2 rounded hover:bg-[#34495E] focus:outline-none flex items-center justify-center ml-auto">
+          <!-- Menu Icon -->
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Settings Sidebar -->
+    <div id="settingsSidebar" class="w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 overflow-y-auto h-screen flex-shrink-0 fixed right-0 top-0 z-50">
+      <div class="p-6">
+        <!-- Header -->
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl font-bold text-gray-800">Preferências</h2>
+          <button onclick="toggleSettingsSidebar()" class="text-gray-500 hover:text-gray-700">
+            <i class="fa-solid fa-times text-xl"></i>
+          </button>
+        </div>
+
+        <!-- EMPRESA Section -->
+        <div class="mb-8">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">EMPRESA</h3>
+          <div class="space-y-2">
+            <a href="dadosEmpresa.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-building text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Dados da Empresa</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-file-text text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Termos e Condições</span>
+            </a>
+            <a href="minhaConta.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-user-gear text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Minha Conta</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-user text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Perfil</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- CONFIGURAÇÕES Section -->
+        <div class="mb-8">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">CONFIGURAÇÕES</h3>
+          <div class="space-y-2">
+            <a href="faturas.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-file-invoice text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Faturas</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-map-pin text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Preferência de Endereço</span>
+            </a>
+            <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-bolt text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Integrações</span>
+            </a>
+            <a href="modeloMensagens.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-envelope text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Modelo de Mensagens</span>
+            </a>
+            <a href="automacao.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-robot text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Automação</span>
+            </a>
+            <a href="opcoes.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-gear text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Opções</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- TERMOS E CONDIÇÕES Section -->
+        <div class="mb-8">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">TERMOS E CONDIÇÕES</h3>
+          <div class="space-y-2">
+            <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-list text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Gerenciar Termos</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- RELATÓRIOS Section -->
+        <div class="mb-8">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">RELATÓRIOS</h3>
+          <div class="space-y-2">
+            <a href="gerenciarRelatorios.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-chart-bar text-[#2563EB] mr-3"></i>
+              <span class="text-gray-800">Gerenciar Relatórios</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Assinatura Button -->
+        <div class="mt-8">
+          <a href="assinaturas.html" class="block w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium text-center">
+            Assinatura
+          </a>
+        </div>
+      </div>
+    </div>
+
+      <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50] overflow-y-auto">
+        <!-- Top Menu -->
+        <header class="flex items-center justify-end h-24 px-6 py-4 bg-[#2C3E50] text-white">
+          <div class="flex items-center space-x-6">
+            <button class="text-white hover:text-blue-300">
+              <i class="fa-solid fa-phone"></i>
+            </button>
+            <button class="text-white hover:text-blue-300">
+              <i class="fa-regular fa-bell"></i>
+            </button>
+            <span class="font-medium">Henrique</span>
+            <div class="relative group flex items-center space-x-2">
+              <span class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+                <i class="fa-regular fa-user text-gray-500 text-lg"></i>
+              </span>
+              
+              <!-- Dropdown Menu -->
+              <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                <div class="p-6">
+                  <!-- Minha Conta Section -->
+                  <div class="mb-4">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Minha Conta</h3>
+                    <div class="flex items-center justify-between">
+                      <div class="flex items-center">
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center mr-3">
+                          <span class="text-white font-bold text-lg">MS</span>
+                        </div>
+                        <div>
+                          <div class="font-bold text-gray-800">Maria Silva</div>
+                          <div class="text-sm text-gray-500">Administradora</div>
+                        </div>
+                      </div>
+                      <div class="flex space-x-2">
+                        <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                          <i class="fa-regular fa-user"></i>
+                        </button>
+                        <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                          <i class="fa-solid fa-pencil"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Preferências Section -->
+                  <div>
+                    <button onclick="toggleSettingsSidebar()" class="w-full text-left text-blue-600 hover:text-blue-800 text-sm font-medium">
+                      <i class="fa-solid fa-gear mr-2"></i>
+                      Preferências
+                    </button>
+                    <div class="space-y-3">
+                      <div class="flex items-center">
+                        <i class="fa-solid fa-envelope text-gray-600 mr-3"></i>
+                        <span class="text-sm text-gray-600">maria.silva@empresa.com</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="fa-solid fa-phone text-gray-600 mr-3"></i>
+                        <span class="text-sm text-gray-600">(11) 99999-9999</span>
+                      </div>
+                      <div class="flex items-center">
+                        <i class="fa-solid fa-building text-gray-600 mr-3"></i>
+                        <span class="text-sm text-gray-600">Empresa ABC Ltda</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <!-- Divider -->
+                  <div class="border-t border-gray-200 my-4"></div>
+                  
+                  <!-- Actions -->
+                  <div class="space-y-2">
+                    <button class="w-full text-left text-gray-700 hover:text-gray-900 text-sm py-2">
+                      <i class="fa-solid fa-user mr-2"></i>
+                      Meu Perfil
+                    </button>
+                    <button class="w-full text-left text-gray-700 hover:text-gray-900 text-sm py-2">
+                      <i class="fa-solid fa-cog mr-2"></i>
+                      Configurações
+                    </button>
+                    <button class="w-full text-left text-gray-700 hover:text-gray-900 text-sm py-2">
+                      <i class="fa-solid fa-question-circle mr-2"></i>
+                      Ajuda
+                    </button>
+                    <button class="w-full text-left text-red-600 hover:text-red-800 text-sm py-2">
+                      <i class="fa-solid fa-sign-out mr-2"></i>
+                      Sair
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+      <!-- Main Content -->
+      <main class="flex-1 px-6 pt-8 pb-6 bg-gray-100 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl">
+        <!-- Page Title -->
+        <div class="mb-6">
+          <h1 class="text-3xl font-bold text-gray-800">Financeiro</h1>
+          <p class="text-gray-600 mt-2">Gerencie suas finanças e acompanhe o desempenho financeiro</p>
+        </div>
+        
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8 mt-4">
+          <!-- Transações Card -->
+          <a href="transacoes.html" class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+            <div class="text-2xl font-bold text-gray-800 mb-2">R$ 11.690,00</div>
+            <div class="text-sm text-gray-500 mb-3">Transações</div>
+            <div class="text-xs text-gray-400 mb-1">este mês</div>
+            <div class="space-y-1">
+              <div class="text-xs text-green-600">Ganhos: R$ 15.200,00</div>
+              <div class="text-xs text-red-600">Despesas: R$ 3.510,00</div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1 mt-3">
+              <div class="bg-pink-500 h-1 rounded-full" style="width: 75%"></div>
+            </div>
+          </a>
+
+          <!-- Despesas Card -->
+          <a href="despesas.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+            <div>
+              <div class="text-2xl font-bold text-gray-800 mb-2">R$ 2.340</div>
+              <div class="text-sm text-gray-500 mb-3">Despesas</div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
+              <div class="bg-red-500 h-1 rounded-full" style="width: 60%"></div>
+            </div>
+          </a>
+
+          <!-- Faturas Card -->
+          <a href="faturasContabilidade.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+            <div>
+              <div class="text-2xl font-bold text-gray-800 mb-2">12</div>
+              <div class="text-sm text-gray-500 mb-3">Faturas</div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
+              <div class="bg-purple-500 h-1 rounded-full" style="width: 40%"></div>
+            </div>
+          </a>
+
+          <!-- Folha de Pagamento Card -->
+          <a href="folhasdepagamentos.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+            <div>
+              <div class="text-2xl font-bold text-gray-800 mb-2">R$ 8.500</div>
+              <div class="text-sm text-gray-500 mb-3">Folha de Pagamento</div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
+              <div class="bg-yellow-500 h-1 rounded-full" style="width: 85%"></div>
+            </div>
+          </a>
+
+          <!-- Gorjetas Card -->
+          <a href="transacoes.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+            <div>
+              <div class="text-2xl font-bold text-gray-800 mb-2">R$ 890</div>
+              <div class="text-sm text-gray-500 mb-3">Gorjetas</div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
+              <div class="bg-green-500 h-1 rounded-full" style="width: 30%"></div>
+            </div>
+          </a>
+
+          <!-- Limpezas Card -->
+          <a href="cobrancasLimpezas.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+            <div>
+              <div class="text-2xl font-bold text-gray-800 mb-2">47</div>
+              <div class="text-sm text-gray-500 mb-3">Limpezas</div>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
+              <div class="bg-blue-400 h-1 rounded-full" style="width: 70%"></div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <!-- Receitas Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Receitas</h3>
+            <canvas id="receitasChart" width="400" height="200"></canvas>
+          </div>
+
+          <!-- Despesas Chart -->
+          <div class="bg-white rounded-lg shadow p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Despesas</h3>
+            <canvas id="despesasChart" width="400" height="200"></canvas>
+          </div>
+        </div>
+
+        <!-- Bottom Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <!-- Left Column -->
+          <div class="space-y-6">
+            <!-- Saldo Chart -->
+            <div class="bg-white rounded-lg shadow p-6">
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Saldo</h3>
+                <select class="px-3 py-1 border border-gray-300 rounded-lg text-sm">
+                  <option>Semanal</option>
+                  <option>Mensal</option>
+                  <option>Anual</option>
+                </select>
+              </div>
+              <canvas id="saldoChart" width="400" height="200"></canvas>
+            </div>
+
+            <!-- Saldo do Cliente List -->
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Saldo do Cliente</h3>
+              <div class="space-y-3">
+                <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span class="text-sm text-gray-600">Maria Silva</span>
+                  <span class="text-sm font-medium text-gray-800">R$ 250,00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span class="text-sm text-gray-600">João Santos</span>
+                  <span class="text-sm font-medium text-gray-800">R$ 180,00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span class="text-sm text-gray-600">Ana Costa</span>
+                  <span class="text-sm font-medium text-gray-800">R$ 320,00</span>
+                </div>
+                <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                  <span class="text-sm text-gray-600">Pedro Lima</span>
+                  <span class="text-sm font-medium text-gray-800">R$ 95,00</span>
+                </div>
+                <div class="flex justify-between items-center py-2">
+                  <span class="text-sm text-gray-600">Carla Mendes</span>
+                  <span class="text-sm font-medium text-gray-800">R$ 420,00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column -->
+          <div class="space-y-6">
+            <!-- Top Categorias Chart -->
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Top Categorias de Receita</h3>
+              <canvas id="categoriasChart" width="400" height="200"></canvas>
+            </div>
+
+            <!-- Distribuição de Transações Chart -->
+            <div class="bg-white rounded-lg shadow p-6">
+              <h3 class="text-lg font-semibold text-gray-800 mb-4">Distribuição de Transações</h3>
+              <canvas id="distribuicaoChart" width="400" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Toggle Script -->
+  <script>
+  const toggleBtn = document.getElementById('toggleSidebar');
+  const sidebar = document.getElementById('sidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('w-64');
+    sidebar.classList.toggle('w-16');
+    sidebar.classList.toggle('sidebar-collapsed');
+    
+    document.querySelectorAll('.sidebar-text').forEach(el => {
+      el.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.sidebar-item').forEach(el => {
+      el.classList.toggle('justify-start');
+    });
+
+    document.querySelectorAll('.sidebar-icon').forEach(el => {
+      el.classList.toggle('mr-3');
+    });
+  });
+
+  // Receitas Chart
+  const receitasCtx = document.getElementById('receitasChart').getContext('2d');
+  new Chart(receitasCtx, {
+    type: 'line',
+    data: {
+      labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'],
+      datasets: [{
+        label: 'Ganhos',
+        data: [8000, 12000, 15000, 18000, 16000, 17000],
+        borderColor: '#10B981',
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 20000,
+          ticks: {
+            stepSize: 5000,
+            callback: function(value) {
+              return 'R$ ' + value.toLocaleString();
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Despesas Chart
+  const despesasCtx = document.getElementById('despesasChart').getContext('2d');
+  new Chart(despesasCtx, {
+    type: 'line',
+    data: {
+      labels: ['Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out'],
+      datasets: [{
+        label: 'Despesas',
+        data: [2000, 1800, 2200, 1900, 2100, 2000],
+        borderColor: '#EF4444',
+        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+        tension: 0.4,
+        fill: true
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 20000,
+          ticks: {
+            stepSize: 5000,
+            callback: function(value) {
+              return 'R$ ' + value.toLocaleString();
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Saldo Chart
+  const saldoCtx = document.getElementById('saldoChart').getContext('2d');
+  new Chart(saldoCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Semana 1', 'Semana 2', 'Semana 3'],
+      datasets: [{
+        label: 'Saldo',
+        data: [8000, 12000, 11000],
+        backgroundColor: '#3B82F6',
+        borderColor: '#3B82F6',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          max: 15000,
+          ticks: {
+            stepSize: 5000,
+            callback: function(value) {
+              return 'R$ ' + value.toLocaleString();
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Categorias Chart
+  const categoriasCtx = document.getElementById('categoriasChart').getContext('2d');
+  new Chart(categoriasCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Consultas', 'Serviços', 'Doações', 'Reembolsos'],
+      datasets: [{
+        label: 'Receita',
+        data: [2000, 8000, 1500, 1000],
+        backgroundColor: '#3B82F6',
+        borderColor: '#3B82F6',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      scales: {
+        x: {
+          beginAtZero: true,
+          max: 10000,
+          ticks: {
+            stepSize: 2000,
+            callback: function(value) {
+              return 'R$ ' + value.toLocaleString();
+            }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      }
+    }
+  });
+
+  // Distribuição Chart
+  const distribuicaoCtx = document.getElementById('distribuicaoChart').getContext('2d');
+  new Chart(distribuicaoCtx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Ganhos', 'Despesas', 'Reembolsos', 'Doações'],
+      datasets: [{
+        data: [60, 25, 10, 5],
+        backgroundColor: [
+          '#10B981',
+          '#EF4444',
+          '#F59E0B',
+          '#3B82F6'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            padding: 20,
+            usePointStyle: true
+          }
+        }
+      }
+    }
+   });
+
+   // Settings Sidebar Toggle
+   function toggleSettingsSidebar() {
+     const settingsSidebar = document.getElementById('settingsSidebar');
+     
+     if (settingsSidebar.classList.contains('translate-x-full')) {
+       // Show sidebar
+       settingsSidebar.classList.remove('translate-x-full');
+     } else {
+       // Hide sidebar
+       settingsSidebar.classList.add('translate-x-full');
+     }
+   }
+   </script>
+ </body>
+ </html>

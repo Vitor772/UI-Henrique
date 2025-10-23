@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Automação</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    /* animação suave da seta */
+    .arrow {
+      opacity: 0;
+      transform: translateX(-5px);
+      transition: all 0.2s ease;
+    }
+
+    /* seta aparece no hover */
+    .sidebar-item:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* esconde a seta quando a sidebar está recolhida */
+    #sidebar.w-16 .arrow {
+      display: none !important;
+    }
+    .sidebar-collapsed .sidebar-item {
+    justify-content: center;
+  }
+  .sidebar-collapsed .sidebar-icon {
+    margin-right: 0 !important;
+  }
+  </style>
+</head>
+<body>
+  <div id="container" class="flex h-screen bg-[#2C3E50]">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-64 bg-[#2C3E50] text-white flex flex-col transition-all duration-300">
+      <div class="flex items-center h-16 px-6 border-b border-gray-700">
+        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+          <i class="fa-solid fa-gem text-white text-lg"></i>
+        </div>
+      </div>
+      <nav class="flex-1 mt-4">
+        <ul>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-gauge mr-3 sidebar-icon"></i>
+                <span class="sidebar-text text-white">Dashboard</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-users mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Funcionários</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-calendar-days mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Agenda</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-user mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Clientes</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-boxes-stacked mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Materiais</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-wallet mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Financeiro</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-comments mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Chat</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-gear mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Configurações</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Toggle Button -->
+      <div class="p-4 border-t border-gray-700">
+        <button id="toggleSidebar" class="p-2 rounded hover:bg-[#34495E] focus:outline-none flex items-center justify-center ml-auto">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+     </aside>
+
+     <!-- Settings Sidebar -->
+     <div id="settingsSidebar" class="w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 overflow-y-auto h-screen flex-shrink-0 fixed right-0 top-0 z-50">
+       <div class="p-6">
+         <!-- Header -->
+         <div class="flex items-center justify-between mb-8">
+           <h2 class="text-2xl font-bold text-gray-800">Preferências</h2>
+           <button onclick="toggleSettingsSidebar()" class="text-gray-500 hover:text-gray-700">
+             <i class="fa-solid fa-times text-xl"></i>
+           </button>
+         </div>
+
+         <!-- EMPRESA Section -->
+         <div class="mb-8">
+           <h3 class="text-lg font-bold text-gray-800 mb-4">EMPRESA</h3>
+           <div class="space-y-2">
+             <a href="dadosEmpresa.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-building text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Dados da Empresa</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-file-text text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Termos e Condições</span>
+             </a>
+             <a href="minhaConta.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-user-gear text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Minha Conta</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-user text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Perfil</span>
+             </a>
+           </div>
+         </div>
+
+         <!-- CONFIGURAÇÕES Section -->
+         <div class="mb-8">
+           <h3 class="text-lg font-bold text-gray-800 mb-4">CONFIGURAÇÕES</h3>
+           <div class="space-y-2">
+             <a href="faturas.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-file-invoice text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Faturas</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-map-pin text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Preferência de Endereço</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-bolt text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Integrações</span>
+             </a>
+             <a href="modeloMensagens.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-envelope text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Modelo de Mensagens</span>
+             </a>
+             <a href="automacao.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-robot text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Automação</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-gear text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Opções</span>
+             </a>
+           </div>
+         </div>
+
+         <!-- TERMOS E CONDIÇÕES Section -->
+         <div class="mb-8">
+           <h3 class="text-lg font-bold text-gray-800 mb-4">TERMOS E CONDIÇÕES</h3>
+           <div class="space-y-2">
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-list text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Gerenciar Termos</span>
+             </a>
+           </div>
+         </div>
+
+         <!-- RELATÓRIOS Section -->
+         <div class="mb-8">
+           <h3 class="text-lg font-bold text-gray-800 mb-4">RELATÓRIOS</h3>
+           <div class="space-y-2">
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-chart-bar text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Gerenciar Relatórios</span>
+             </a>
+           </div>
+         </div>
+
+         <!-- Assinatura Button -->
+         <div class="mt-8">
+           <button class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium">
+             Assinatura
+           </button>
+         </div>
+       </div>
+     </div>
+
+     <!-- Main Content -->
+    <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50]">
+      <!-- Top Menu -->
+       <header class="flex items-center justify-end h-16 px-6 bg-[#2C3E50] text-white flex-shrink-0">
+         <div class="flex items-center space-x-6">
+           <button class="text-white hover:text-blue-300">
+             <i class="fa-solid fa-phone"></i>
+           </button>
+           <button class="text-white hover:text-blue-300">
+             <i class="fa-regular fa-bell"></i>
+           </button>
+           <div class="relative group flex items-center space-x-2">
+             <span class="font-medium cursor-pointer">Henrique</span>
+             <span class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+               <i class="fa-regular fa-user text-gray-500 text-lg"></i>
+             </span>
+            
+            <!-- Dropdown Menu -->
+            <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="p-6">
+                <!-- Minha Conta Section -->
+                <div class="mb-4">
+                  <h3 class="text-lg font-bold text-gray-800 mb-3">Minha Conta</h3>
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center mr-3">
+                        <span class="text-white font-bold text-lg">MS</span>
+                      </div>
+                      <div>
+                        <div class="font-bold text-gray-800">Maria Silva</div>
+                        <div class="text-sm text-gray-500">Administradora</div>
+                      </div>
+                    </div>
+                    <div class="flex space-x-2">
+                      <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                        <i class="fa-regular fa-user"></i>
+                      </button>
+                      <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                        <i class="fa-solid fa-pencil"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Preferências Section -->
+                <div>
+                  <button onclick="toggleSettingsSidebar()" class="w-full text-left text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <i class="fa-solid fa-gear mr-2"></i>
+                    Preferências
+                  </button>
+                  <div class="space-y-3">
+                    <div class="flex items-center">
+                      <i class="fa-solid fa-envelope text-gray-600 mr-3"></i>
+                      <span class="text-gray-800">maria.silva@empresa.com</span>
+                      <span class="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Principal</span>
+                    </div>
+                     <div class="flex items-center">
+                       <i class="fa-solid fa-envelope text-gray-600 mr-3"></i>
+                       <span class="text-gray-800">maria.backup@gmail.com</span>
+                       <span class="ml-2 px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">Secundário</span>
+                     </div>
+
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </header>
+
+      <!-- Dashboard Cards -->
+      <main class="flex-1 p-6 bg-gray-100 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl overflow-y-auto">
+        <div class="mb-6">
+          <h1 class="text-3xl font-bold text-gray-800 mb-2">Automação</h1>
+          <p class="text-gray-600">Gerencie sua Automações</p>
+        </div>
+                <div class="space-y-6">
+                    <!-- Empty State Card -->
+                    <div id="emptyStateCard" class="bg-white rounded-lg shadow-lg p-8 text-center">
+                        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fa-solid fa-robot text-gray-400 text-3xl"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Você ainda não criou nenhuma automação.</h3>
+                        <p class="text-gray-600 mb-6">Comece criando suas primeiras automações para otimizar seus processos.</p>
+                        <button onclick="showCreateForm()" class="bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors">
+                            Criar automações padrão
+                        </button>
+                    </div>
+
+                    <!-- Create Automation Form -->
+                    <div id="createFormCard" class="bg-white rounded-lg shadow-lg p-6 hidden">
+                        <h2 class="text-xl font-semibold text-gray-800 mb-6">Criar Nova Automação</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <!-- Status -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Selecione o status</option>
+                                    <option>Ativo</option>
+                                    <option>Inativo</option>
+                                </select>
+                                <p class="text-xs text-gray-500 mt-1">Define para quem a automação está sendo executada</p>
+                            </div>
+
+                            <!-- Título -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Título</label>
+                                <input type="text" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Digite o título da automação">
+                            </div>
+
+                            <!-- Descrição -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Descrição</label>
+                                <textarea class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-24" placeholder="Descreva o objetivo desta automação"></textarea>
+                            </div>
+
+                            <!-- Categoria -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Categoria</label>
+                                <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Selecione a categoria</option>
+                                    <option>Lembretes</option>
+                                    <option>Pagamentos</option>
+                                    <option>Comunicação</option>
+                                    <option>Relatórios</option>
+                                </select>
+                            </div>
+
+                            <!-- Gatilho -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Gatilho</label>
+                                <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Selecione o gatilho</option>
+                                    <option>Data de Limpeza</option>
+                                    <option>Pagamento Pendente</option>
+                                    <option>Nova Fatura</option>
+                                    <option>Cliente Registrado</option>
+                                </select>
+                            </div>
+
+                            <!-- Atraso -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Atraso</label>
+                                <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Imediatamente</option>
+                                    <option>1 hora</option>
+                                    <option>1 dia</option>
+                                    <option>1 semana</option>
+                                </select>
+                            </div>
+
+                            <!-- Condições -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Condições</label>
+                                <div class="flex items-center">
+                                    <button class="text-blue-600 hover:text-blue-700 font-medium">
+                                        + Condição
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Ação -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Ação</label>
+                                <select class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <option>Selecione a ação</option>
+                                    <option>Enviar SMS</option>
+                                    <option>Enviar Email</option>
+                                    <option>Ligar</option>
+                                    <option>Criar Tarefa</option>
+                                </select>
+                            </div>
+
+                            <!-- Método de Envio -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Método de Envio</label>
+                                <div class="space-y-2">
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                        <span class="ml-2 text-sm text-gray-700">SMS Telefone 1</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                        <span class="ml-2 text-sm text-gray-700">SMS Telefone 2</span>
+                                    </label>
+                                    <label class="flex items-center">
+                                        <input type="checkbox" class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                        <span class="ml-2 text-sm text-gray-700">Email</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Mensagem -->
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Mensagem</label>
+                                <div class="flex gap-2">
+                                    <textarea class="flex-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 h-32" placeholder="Digite o conteúdo da mensagem..."></textarea>
+                                    <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors h-fit">
+                                        Adicionar Campo
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Actions -->
+                        <div class="flex items-center justify-end space-x-3 mt-6 pt-6 border-t border-gray-200">
+                            <button onclick="hideCreateForm()" class="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors">
+                                Cancelar
+                            </button>
+                            <button class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                                Salvar Automação
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Toggle Script -->
+    <script>
+        const toggleBtn = document.getElementById('toggleSidebar');
+        const sidebar = document.getElementById('sidebar');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('w-64');
+            sidebar.classList.toggle('w-16');
+            sidebar.classList.toggle('sidebar-collapsed');
+            
+            document.querySelectorAll('.sidebar-text').forEach(el => {
+                el.classList.toggle('hidden');
+            });
+
+            document.querySelectorAll('.sidebar-item').forEach(el => {
+                el.classList.toggle('justify-start');
+            });
+
+            document.querySelectorAll('.sidebar-icon').forEach(el => {
+                el.classList.toggle('mr-3');
+            });
+        });
+
+        // Settings sidebar function
+        function toggleSettingsSidebar() {
+            const settingsSidebar = document.getElementById('settingsSidebar');
+            settingsSidebar.classList.toggle('translate-x-full');
+        }
+
+        // Form visibility functions
+        function showCreateForm() {
+            document.getElementById('emptyStateCard').classList.add('hidden');
+            document.getElementById('createFormCard').classList.remove('hidden');
+        }
+
+        function hideCreateForm() {
+            document.getElementById('createFormCard').classList.add('hidden');
+            document.getElementById('emptyStateCard').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>

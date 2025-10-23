@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faturas - Contabilidade</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+  <style>
+    /* animação suave da seta */
+    .arrow {
+      opacity: 0;
+      transform: translateX(-5px);
+      transition: all 0.2s ease;
+    }
+
+    /* seta aparece no hover */
+    .sidebar-item:hover .arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* esconde a seta quando a sidebar está recolhida */
+    #sidebar.w-16 .arrow {
+      display: none !important;
+    }
+    .sidebar-collapsed .sidebar-item {
+    justify-content: center;
+  }
+  .sidebar-collapsed .sidebar-icon {
+    margin-right: 0 !important;
+  }
+  </style>
+</head>
+<body>
+  <div id="container" class="flex h-screen bg-[#2C3E50]">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-64 bg-[#2C3E50] text-white flex flex-col transition-all duration-300">
+      <div class="flex items-center h-16 px-6 border-b border-gray-700">
+        <div class="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
+          <i class="fa-solid fa-gem text-white text-lg"></i>
+        </div>
+      </div>
+      <nav class="flex-1 mt-4">
+        <ul>
+          <li>
+            <a href="index.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-gauge mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Dashboard</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="funcionarios.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-users mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Funcionários</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="agenda.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-calendar-days mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Agenda</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="cliente.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-user mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Clientes</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="materiais.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-boxes-stacked mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Materiais</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="contabilidade.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-wallet mr-3 sidebar-icon"></i>
+                <span class="sidebar-text text-white">Financeiro</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="chat.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-regular fa-comments mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Chat</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+          <li>
+            <a href="opcoes.html" class="flex items-center justify-between px-6 py-3 mx-2 rounded-lg transition-colors duration-200 hover:bg-[#D7E5FA59] sidebar-item">
+              <div class="flex items-center">
+                <i class="fa-solid fa-gear mr-3 sidebar-icon"></i>
+                <span class="sidebar-text">Configurações</span>
+              </div>
+              <i class="fa-solid fa-angle-right arrow"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Toggle Button -->
+      <div class="p-4 border-t border-gray-700">
+        <button id="toggleSidebar" class="p-2 rounded hover:bg-[#34495E] focus:outline-none flex items-center justify-center ml-auto">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+     </aside>
+
+     <!-- Settings Sidebar -->
+     <div id="settingsSidebar" class="w-80 bg-white shadow-lg transform translate-x-full transition-transform duration-300 overflow-y-auto h-screen flex-shrink-0 fixed right-0 top-0 z-50">
+       <div class="p-6">
+         <!-- Header -->
+         <div class="flex items-center justify-between mb-8">
+           <h2 class="text-2xl font-bold text-gray-800">Preferências</h2>
+           <button onclick="toggleSettingsSidebar()" class="text-gray-500 hover:text-gray-700">
+             <i class="fa-solid fa-times text-xl"></i>
+           </button>
+         </div>
+
+         <!-- EMPRESA Section -->
+         <div class="mb-8">
+           <h3 class="text-lg font-bold text-gray-800 mb-4">EMPRESA</h3>
+           <div class="space-y-2">
+             <a href="dadosEmpresa.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-building text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Dados da Empresa</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-file-text text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Termos e Condições</span>
+             </a>
+             <a href="minhaConta.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-user-gear text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Minha Conta</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-user text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Perfil</span>
+             </a>
+           </div>
+         </div>
+
+         <!-- CONFIGURAÇÕES Section -->
+         <div class="mb-8">
+           <h3 class="text-lg font-bold text-gray-800 mb-4">CONFIGURAÇÕES</h3>
+           <div class="space-y-2">
+             <a href="faturasContabilidade.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-file-invoice text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Faturas</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-map-pin text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Preferência de Endereço</span>
+             </a>
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-bolt text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Integrações</span>
+             </a>
+             <a href="modeloMensagens.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-envelope text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Modelo de Mensagens</span>
+             </a>
+             <a href="automacao.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-robot text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Automação</span>
+             </a>
+             <a href="opcoes.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-gear text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Opções</span>
+             </a>
+           </div>
+         </div>
+
+         <!-- TERMOS E CONDIÇÕES Section -->
+         <div class="mb-8">
+           <h3 class="text-lg font-bold text-gray-800 mb-4">TERMOS E CONDIÇÕES</h3>
+           <div class="space-y-2">
+             <a href="#" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-list text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Gerenciar Termos</span>
+             </a>
+           </div>
+         </div>
+
+         <!-- RELATÓRIOS Section -->
+         <div class="mb-8">
+           <h3 class="text-lg font-bold text-gray-800 mb-4">RELATÓRIOS</h3>
+           <div class="space-y-2">
+             <a href="gerenciarRelatorios.html" class="flex items-center p-3 rounded-lg bg-[#F9FAFB] hover:bg-gray-50 transition-colors">
+               <i class="fa-solid fa-chart-bar text-[#2563EB] mr-3"></i>
+               <span class="text-gray-800">Gerenciar Relatórios</span>
+             </a>
+           </div>
+         </div>
+
+         <!-- Assinatura Button -->
+         <div class="mt-8">
+           <a href="assinaturas.html" class="block w-full bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors font-medium text-center">
+             Assinatura
+           </a>
+         </div>
+       </div>
+     </div>
+
+     <!-- Main Content -->
+    <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50] overflow-y-auto">
+      <!-- Top Menu -->
+       <header class="flex items-center justify-end h-16 px-6 bg-[#2C3E50] text-white">
+         <div class="flex items-center space-x-6">
+           <button class="text-white hover:text-blue-300">
+             <i class="fa-solid fa-phone"></i>
+           </button>
+           <button class="text-white hover:text-blue-300">
+             <i class="fa-regular fa-bell"></i>
+           </button>
+           <div class="relative group flex items-center space-x-2">
+             <span class="font-medium cursor-pointer">Henrique</span>
+             <span class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
+               <i class="fa-regular fa-user text-gray-500 text-lg"></i>
+             </span>
+            
+            <!-- Dropdown Menu -->
+            <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="p-6">
+                <!-- Minha Conta Section -->
+                <div class="mb-4">
+                  <h3 class="text-lg font-bold text-gray-800 mb-3">Minha Conta</h3>
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                      <div class="w-12 h-12 rounded-full bg-gradient-to-br from-pink-400 to-red-500 flex items-center justify-center mr-3">
+                        <span class="text-white font-bold text-lg">MS</span>
+                      </div>
+                      <div>
+                        <div class="font-bold text-gray-800">Maria Silva</div>
+                        <div class="text-sm text-gray-500">Administradora</div>
+                      </div>
+                    </div>
+                    <div class="flex space-x-2">
+                      <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                        <i class="fa-regular fa-user"></i>
+                      </button>
+                      <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg">
+                        <i class="fa-solid fa-pencil"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Preferências Section -->
+                <div>
+                  <button onclick="toggleSettingsSidebar()" class="w-full text-left text-blue-600 hover:text-blue-800 text-sm font-medium">
+                    <i class="fa-solid fa-gear mr-2"></i>
+                    Preferências
+                  </button>
+                  <div class="space-y-3">
+                    <div class="flex items-center">
+                      <i class="fa-solid fa-envelope text-gray-600 mr-3"></i>
+                      <span class="text-gray-800">maria.silva@empresa.com</span>
+                      <span class="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">Principal</span>
+                    </div>
+                     <div class="flex items-center">
+                       <i class="fa-solid fa-envelope text-gray-600 mr-3"></i>
+                       <span class="text-gray-800">maria.backup@gmail.com</span>
+                       <span class="ml-2 px-2 py-1 bg-gray-100 text-gray-800 text-xs rounded-full">Secundário</span>
+                     </div>
+
+                   </div>
+                 </div>
+               </div>
+             </div>
+           </div>
+         </div>
+       </header>
+
+      <!-- Main Content -->
+      <main class="flex-1 px-6 pt-8 pb-6 bg-gray-100 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl">
+        <!-- Page Title -->
+        <div class="mb-6">
+          <h1 class="text-3xl font-bold text-gray-800">Faturas</h1>
+          <p class="text-gray-600 mt-2">Gerencie as Faturas</p>
+        </div>
+
+        <!-- Action Button -->
+        <div class="flex justify-end mb-6">
+          <button class="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition-colors flex items-center">
+            <i class="fa-solid fa-plus mr-2"></i>
+            Nova Fatura
+          </button>
+        </div>
+
+        <!-- Filter and Search Section -->
+        <div class="bg-white rounded-lg shadow p-6 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <!-- Cliente Filter -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Cliente</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>Todos</option>
+                <option>João Silva</option>
+                <option>Maria Santos</option>
+                <option>Pedro Costa</option>
+                <option>Ana Oliveira</option>
+                <option>Carlos Mendes</option>
+              </select>
+            </div>
+
+            <!-- Número Filter -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Número</label>
+              <input type="text" placeholder="Digite o número" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </div>
+
+            <!-- Status Filter -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+              <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option>Todos Status</option>
+                <option>Pagar</option>
+                <option>Pendente</option>
+                <option>Vencida</option>
+                <option>Cancelado</option>
+              </select>
+            </div>
+
+            <!-- De Date -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">De</label>
+              <div class="relative">
+                <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fa-solid fa-calendar absolute right-3 top-3 text-gray-400"></i>
+              </div>
+            </div>
+
+            <!-- Até Date -->
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">Até</label>
+              <div class="relative">
+                <input type="date" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <i class="fa-solid fa-calendar absolute right-3 top-3 text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Search Button -->
+          <div class="flex justify-end mt-4">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center">
+              <i class="fa-solid fa-search mr-2"></i>
+              Buscar
+            </button>
+          </div>
+        </div>
+
+        <!-- Invoices Table -->
+        <div class="bg-white rounded-lg shadow overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <input type="checkbox" class="rounded border-gray-300">
+                  </th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vencimento</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Cliente</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fatura</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pagamento</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Recibo</th>
+                </tr>
+              </thead>
+              <tbody class="bg-white divide-y divide-gray-200">
+                <!-- Row 1 -->
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <input type="checkbox" class="rounded border-gray-300">
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                      Pagar
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">19/07/2024</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm font-medium mr-3">
+                        JS
+                      </div>
+                      <div class="text-sm font-medium text-gray-900">João Silva</div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">INV-001</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">R$ 1.290,00</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">PIX</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button class="text-blue-600 hover:text-blue-800">
+                      <i class="fa-solid fa-download"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 2 -->
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <input type="checkbox" class="rounded border-gray-300">
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-orange-100 text-orange-800">
+                      Pendente
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">20/07/2024</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-purple-500 flex items-center justify-center text-white text-sm font-medium mr-3">
+                        MS
+                      </div>
+                      <div class="text-sm font-medium text-gray-900">Maria Santos</div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">INV-002</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">R$ 890,00</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button class="text-blue-600 hover:text-blue-800">
+                      <i class="fa-solid fa-download"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 3 -->
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <input type="checkbox" class="rounded border-gray-300">
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-red-100 text-red-800">
+                      Vencida
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">10/07/2024</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-green-500 flex items-center justify-center text-white text-sm font-medium mr-3">
+                        PC
+                      </div>
+                      <div class="text-sm font-medium text-gray-900">Pedro Costa</div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">INV-003</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">R$ 2.100,00</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button class="text-blue-600 hover:text-blue-800">
+                      <i class="fa-solid fa-download"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 4 -->
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <input type="checkbox" class="rounded border-gray-300">
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                      Pagar
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">01/07/2024</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-pink-500 flex items-center justify-center text-white text-sm font-medium mr-3">
+                        AO
+                      </div>
+                      <div class="text-sm font-medium text-gray-900">Ana Oliveira</div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">INV-004</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">R$ 3.750,00</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Cartão</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button class="text-blue-600 hover:text-blue-800">
+                      <i class="fa-solid fa-download"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 5 -->
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <input type="checkbox" class="rounded border-gray-300">
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">
+                      Cancelado
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">01/07/2024</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="w-8 h-8 rounded-full bg-yellow-500 flex items-center justify-center text-white text-sm font-medium mr-3">
+                        CM
+                      </div>
+                      <div class="text-sm font-medium text-gray-900">Carlos Mendes</div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">INV-005</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">R$ 930,00</td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">-</td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <button class="text-blue-600 hover:text-blue-800">
+                      <i class="fa-solid fa-download"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+            <div class="flex-1 flex justify-between sm:hidden">
+              <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                Anterior
+              </a>
+              <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                Próximo
+              </a>
+            </div>
+            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <p class="text-sm text-gray-700">
+                  Mostrando <span class="font-medium">1</span> até <span class="font-medium">5</span> de <span class="font-medium">5</span> resultados
+                </p>
+              </div>
+              <div>
+                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                  <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    <span class="sr-only">Anterior</span>
+                    <i class="fa-solid fa-chevron-left"></i>
+                  </a>
+                  <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    Anterior
+                  </a>
+                  <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    Próximo
+                  </a>
+                  <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    <span class="sr-only">Próximo</span>
+                    <i class="fa-solid fa-chevron-right"></i>
+                  </a>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Toggle Script -->
+  <script>
+  const toggleBtn = document.getElementById('toggleSidebar');
+  const sidebar = document.getElementById('sidebar');
+
+  toggleBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('w-64');
+    sidebar.classList.toggle('w-16');
+    sidebar.classList.toggle('sidebar-collapsed'); // ativa o estilo centralizado
+    
+    document.querySelectorAll('.sidebar-text').forEach(el => {
+      el.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('.sidebar-item').forEach(el => {
+      el.classList.toggle('justify-start');
+    });
+
+    document.querySelectorAll('.sidebar-icon').forEach(el => {
+      el.classList.toggle('mr-3');
+    });
+   });
+
+   // Settings Sidebar Toggle
+   function toggleSettingsSidebar() {
+     const settingsSidebar = document.getElementById('settingsSidebar');
+     
+     if (settingsSidebar.classList.contains('translate-x-full')) {
+       // Show sidebar
+       settingsSidebar.classList.remove('translate-x-full');
+     } else {
+       // Hide sidebar
+       settingsSidebar.classList.add('translate-x-full');
+     }
+   }
+   </script>
+ </body>
+ </html>
