@@ -33,16 +33,105 @@
     margin-right: 0 !important;
   }
 
-  /* Responsividade apenas para cards e gráficos */
+  /* Responsividade para mobile */
+  @media (max-width: 768px) {
+    /* Sidebar mobile */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      height: 100vh;
+      z-index: 1000;
+      transition: left 0.3s ease;
+    }
+    
+    #sidebar.mobile-open {
+      left: 0;
+    }
+    
+    /* Overlay para mobile */
+    .mobile-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+    
+    .mobile-overlay.show {
+      display: block;
+    }
+    
+    /* Main content mobile */
+    #mainContent {
+      margin-left: 0;
+      width: 100%;
+    }
+    
+    /* Header mobile */
+    .header-mobile {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+    }
+    
+    /* Cards responsivos */
+    .dashboard-card {
+      margin-bottom: 1rem;
+    }
+    
+    /* Gráficos responsivos */
+    .chart-responsive {
+      height: 200px !important;
+    }
+    
+    /* Settings sidebar mobile */
+    #settingsSidebar {
+      width: 100%;
+      max-width: 100vw;
+    }
+    
+    /* Dropdown mobile */
+    .dropdown-mobile {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 320px;
+      height: 100vh;
+      z-index: 1001;
+    }
+  }
+  
   @media (max-width: 640px) {
     .chart-responsive {
       height: 150px !important;
     }
+    
+    /* Cards em coluna única */
+    .grid-responsive {
+      grid-template-columns: 1fr !important;
+    }
+    
+    /* Padding reduzido */
+    .main-padding {
+      padding: 1rem;
+    }
   }
   
-  @media (max-width: 768px) {
-    .chart-responsive {
-      height: 180px !important;
+  @media (min-width: 769px) {
+    /* Desktop: sidebar normal */
+    #sidebar {
+      position: relative;
+      left: 0;
+    }
+    
+    .mobile-overlay {
+      display: none !important;
     }
   }
   
@@ -50,10 +139,18 @@
   .chart-responsive {
     height: 200px !important;
   }
+  
+  /* Transições suaves */
+  .transition-all {
+    transition: all 0.3s ease;
+  }
   </style>
 </head>
 <body>
   <div id="container" class="flex h-screen bg-[#2C3E50]">
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="mobile-overlay" onclick="closeMobileSidebar()"></div>
+    
     <!-- Sidebar -->
     <aside id="sidebar" class="w-64 bg-[#2C3E50] text-white flex flex-col transition-all duration-300">
       <div class="flex items-center h-16 px-6 border-b border-gray-700">
@@ -245,7 +342,12 @@
      <!-- Main Content -->
     <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50]">
       <!-- Top Menu -->
-       <header class="flex items-center justify-end h-16 px-6 bg-[#2C3E50] text-white flex-shrink-0">
+       <header class="flex items-center justify-between h-16 px-6 bg-[#2C3E50] text-white flex-shrink-0">
+         <!-- Mobile Menu Button -->
+         <button id="mobileMenuBtn" class="lg:hidden text-white hover:text-blue-300 p-2" onclick="toggleMobileSidebar()">
+           <i class="fa-solid fa-bars text-xl"></i>
+         </button>
+         
          <div class="flex items-center space-x-6">
            <button class="text-white hover:text-blue-300">
              <i class="fa-solid fa-phone"></i>
@@ -260,7 +362,7 @@
              </span>
             
             <!-- Dropdown Menu -->
-            <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-mobile">
               <div class="p-6">
                 <!-- Minha Conta Section -->
                 <div class="mb-4">
@@ -313,25 +415,25 @@
        </header>
 
       <!-- Dashboard Cards -->
-      <main class="flex-1 p-6 bg-gray-100 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl overflow-y-auto">
+      <main class="flex-1 p-3 sm:p-6 bg-gray-100 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl overflow-y-auto main-padding">
         <!-- Indicadores Principais -->
-        <div class="mb-8">
-          <h2 class="text-xl font-bold text-gray-800 mb-4">Indicadores Principais</h2>
-          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="mb-6 sm:mb-8">
+          <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">Indicadores Principais</h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 grid-responsive">
             <!-- Card Principal - Novos Clientes -->
-            <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg transition-shadow" onclick="toggleSection('client-indicators')">
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center">
-                  <div class="bg-blue-100 text-blue-600 rounded-full p-3 mr-4">
-                    <i class="fa-solid fa-user-plus text-xl"></i>
-            </div>
-            <div>
-                    <div class="text-sm text-gray-500">Novos Clientes</div>
-                    <div class="text-3xl font-bold text-gray-800">0</div>
-            </div>
-          </div>
-                <div class="text-right">
-                  <div class="flex items-center text-red-500 text-sm">
+            <div class="bg-white rounded-lg shadow p-3 sm:p-4 cursor-pointer hover:shadow-lg transition-shadow dashboard-card" onclick="toggleSection('client-indicators')">
+              <div class="flex items-center justify-between mb-3 sm:mb-4">
+                <div class="flex items-center min-w-0 flex-1">
+                  <div class="bg-blue-100 text-blue-600 rounded-full p-2 sm:p-3 mr-3 sm:mr-4 flex-shrink-0">
+                    <i class="fa-solid fa-user-plus text-lg sm:text-xl"></i>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="text-xs sm:text-sm text-gray-500">Novos Clientes</div>
+                    <div class="text-xl sm:text-3xl font-bold text-gray-800">0</div>
+                  </div>
+                </div>
+                <div class="text-right flex-shrink-0 ml-2">
+                  <div class="flex items-center text-red-500 text-xs sm:text-sm">
                     <i class="fa-solid fa-arrow-down mr-1"></i>
                     <span>-100%</span>
                   </div>
@@ -345,19 +447,19 @@
             </div>
 
             <!-- Card Principal - Limpezas -->
-            <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg transition-shadow" onclick="toggleSection('cleaning-indicators')">
-              <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center">
-                  <div class="bg-green-100 text-green-600 rounded-full p-3 mr-4">
-                    <i class="fa-solid fa-broom text-xl"></i>
-            </div>
-            <div>
-                    <div class="text-sm text-gray-500">Limpezas</div>
-                    <div class="text-3xl font-bold text-gray-800">69</div>
-            </div>
-          </div>
-                <div class="text-right">
-                  <div class="flex items-center text-green-500 text-sm">
+            <div class="bg-white rounded-lg shadow p-3 sm:p-4 cursor-pointer hover:shadow-lg transition-shadow dashboard-card" onclick="toggleSection('cleaning-indicators')">
+              <div class="flex items-center justify-between mb-3 sm:mb-4">
+                <div class="flex items-center min-w-0 flex-1">
+                  <div class="bg-green-100 text-green-600 rounded-full p-2 sm:p-3 mr-3 sm:mr-4 flex-shrink-0">
+                    <i class="fa-solid fa-broom text-lg sm:text-xl"></i>
+                  </div>
+                  <div class="min-w-0 flex-1">
+                    <div class="text-xs sm:text-sm text-gray-500">Limpezas</div>
+                    <div class="text-xl sm:text-3xl font-bold text-gray-800">69</div>
+                  </div>
+                </div>
+                <div class="text-right flex-shrink-0 ml-2">
+                  <div class="flex items-center text-green-500 text-xs sm:text-sm">
                     <i class="fa-solid fa-arrow-up mr-1"></i>
                     <span>+48</span>
                   </div>
@@ -371,7 +473,7 @@
             </div>
 
             <!-- Card Principal - Faturamento -->
-            <div class="bg-white rounded-lg shadow p-4 cursor-pointer hover:shadow-lg transition-shadow" onclick="window.location.href='indicadoresFinanceiros.html'">
+            <div class="bg-white rounded-lg shadow p-3 sm:p-4 cursor-pointer hover:shadow-lg transition-shadow dashboard-card" onclick="window.location.href='indicadoresFinanceiros.html'">
               <div class="flex items-center justify-between mb-3">
                 <div class="flex items-center flex-1 min-w-0">
                   <div class="bg-purple-100 text-purple-600 rounded-full p-2 mr-3 flex-shrink-0">
@@ -399,20 +501,20 @@
         </div>
 
         <!-- Gráficos Gerais da Tela Inicial -->
-        <div class="mb-8">
-          <h2 class="text-xl font-bold text-gray-800 mb-4">Visão Geral</h2>
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="mb-6 sm:mb-8">
+          <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">Visão Geral</h2>
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
             <!-- Gráfico de Performance Geral -->
-            <div class="bg-white rounded-lg shadow p-6">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Performance Geral</h3>
+            <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+              <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Performance Geral</h3>
               <div class="h-48 chart-responsive">
                 <canvas id="overallPerformanceChart" width="400" height="200"></canvas>
               </div>
             </div>
             
             <!-- Gráfico de Distribuição de Receitas -->
-            <div class="bg-white rounded-lg shadow p-6">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Distribuição de Receitas</h3>
+            <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+              <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Distribuição de Receitas</h3>
               <div class="h-48 chart-responsive">
                 <canvas id="revenueDistributionChart" width="400" height="200"></canvas>
               </div>
@@ -421,35 +523,35 @@
         </div>
 
         <!-- Gráfico de Tendências Mensais -->
-        <div class="mb-8">
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Tendências dos Últimos 6 Meses</h3>
-            <div class="h-64 chart-responsive">
+        <div class="mb-6 sm:mb-8">
+          <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+            <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Tendências dos Últimos 6 Meses</h3>
+            <div class="h-48 sm:h-64 chart-responsive">
               <canvas id="monthlyTrendsChart" width="800" height="300"></canvas>
             </div>
           </div>
         </div>
 
         <!-- Cards Expandidos (inicialmente ocultos) -->
-        <div class="mb-8">
+        <div class="mb-6 sm:mb-8">
           <!-- Indicadores de Clientes Expandidos -->
           <div id="client-indicators" class="hidden">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Indicadores de Clientes</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">Indicadores de Clientes</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
               <!-- Total de Clientes -->
-              <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center">
-                    <div class="bg-green-100 text-green-600 rounded-full p-3 mr-4">
-                      <i class="fa-solid fa-users text-xl"></i>
+              <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+                <div class="flex items-center justify-between mb-3 sm:mb-4">
+                  <div class="flex items-center min-w-0 flex-1">
+                    <div class="bg-green-100 text-green-600 rounded-full p-2 sm:p-3 mr-3 sm:mr-4 flex-shrink-0">
+                      <i class="fa-solid fa-users text-lg sm:text-xl"></i>
                     </div>
-                    <div>
-                      <div class="text-sm text-gray-500">Total de Clientes</div>
-                      <div class="text-3xl font-bold text-gray-800">9</div>
+                    <div class="min-w-0 flex-1">
+                      <div class="text-xs sm:text-sm text-gray-500">Total de Clientes</div>
+                      <div class="text-xl sm:text-3xl font-bold text-gray-800">9</div>
                     </div>
                   </div>
-                  <div class="text-right">
-                    <div class="text-sm text-gray-500">vs 9</div>
+                  <div class="text-right flex-shrink-0 ml-2">
+                    <div class="text-xs sm:text-sm text-gray-500">vs 9</div>
                   </div>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2">
@@ -463,19 +565,19 @@
               </div>
 
               <!-- Clientes Recorrentes -->
-              <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center">
-                    <div class="bg-purple-100 text-purple-600 rounded-full p-3 mr-4">
-                      <i class="fa-solid fa-rotate text-xl"></i>
+              <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+                <div class="flex items-center justify-between mb-3 sm:mb-4">
+                  <div class="flex items-center min-w-0 flex-1">
+                    <div class="bg-purple-100 text-purple-600 rounded-full p-2 sm:p-3 mr-3 sm:mr-4 flex-shrink-0">
+                      <i class="fa-solid fa-rotate text-lg sm:text-xl"></i>
                     </div>
-                    <div>
-                      <div class="text-sm text-gray-500">Clientes Recorrentes</div>
-                      <div class="text-3xl font-bold text-gray-800">9</div>
+                    <div class="min-w-0 flex-1">
+                      <div class="text-xs sm:text-sm text-gray-500">Clientes Recorrentes</div>
+                      <div class="text-xl sm:text-3xl font-bold text-gray-800">9</div>
                     </div>
                   </div>
-                  <div class="text-right">
-                    <div class="text-sm text-gray-500">vs 9</div>
+                  <div class="text-right flex-shrink-0 ml-2">
+                    <div class="text-xs sm:text-sm text-gray-500">vs 9</div>
                   </div>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2">
@@ -493,22 +595,22 @@
 
           <!-- Indicadores de Limpezas Expandidos -->
           <div id="cleaning-indicators" class="hidden">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">Indicadores de Limpezas</h2>
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <h2 class="text-lg sm:text-xl font-bold text-gray-800 mb-4">Indicadores de Limpezas</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               <!-- Cancelamentos -->
-              <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center">
-                    <div class="bg-red-100 text-red-600 rounded-full p-3 mr-4">
-                      <i class="fa-solid fa-times text-xl"></i>
+              <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+                <div class="flex items-center justify-between mb-3 sm:mb-4">
+                  <div class="flex items-center min-w-0 flex-1">
+                    <div class="bg-red-100 text-red-600 rounded-full p-2 sm:p-3 mr-3 sm:mr-4 flex-shrink-0">
+                      <i class="fa-solid fa-times text-lg sm:text-xl"></i>
                     </div>
-                    <div>
-                      <div class="text-sm text-gray-500">Cancelamentos</div>
-                      <div class="text-3xl font-bold text-gray-800">0</div>
+                    <div class="min-w-0 flex-1">
+                      <div class="text-xs sm:text-sm text-gray-500">Cancelamentos</div>
+                      <div class="text-xl sm:text-3xl font-bold text-gray-800">0</div>
                     </div>
                   </div>
-                  <div class="text-right">
-                    <div class="text-sm text-gray-500">vs 0</div>
+                  <div class="text-right flex-shrink-0 ml-2">
+                    <div class="text-xs sm:text-sm text-gray-500">vs 0</div>
                   </div>
                 </div>
                 <div class="w-full bg-gray-200 rounded-full h-2">
@@ -522,19 +624,19 @@
               </div>
 
               <!-- Tempo de Finalização -->
-              <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center">
-                    <div class="bg-yellow-100 text-yellow-600 rounded-full p-3 mr-4">
-                      <i class="fa-solid fa-clock text-xl"></i>
+              <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+                <div class="flex items-center justify-between mb-3 sm:mb-4">
+                  <div class="flex items-center min-w-0 flex-1">
+                    <div class="bg-yellow-100 text-yellow-600 rounded-full p-2 sm:p-3 mr-3 sm:mr-4 flex-shrink-0">
+                      <i class="fa-solid fa-clock text-lg sm:text-xl"></i>
                     </div>
-                    <div>
-                      <div class="text-sm text-gray-500">Tempo de Finalização</div>
-                      <div class="text-3xl font-bold text-gray-800">45 min</div>
+                    <div class="min-w-0 flex-1">
+                      <div class="text-xs sm:text-sm text-gray-500">Tempo de Finalização</div>
+                      <div class="text-xl sm:text-3xl font-bold text-gray-800">45 min</div>
                     </div>
                   </div>
-                  <div class="text-right">
-                    <div class="flex items-center text-red-500 text-sm">
+                  <div class="text-right flex-shrink-0 ml-2">
+                    <div class="flex items-center text-red-500 text-xs sm:text-sm">
                       <i class="fa-solid fa-arrow-down mr-1"></i>
                       <span>-43.8%</span>
                     </div>
@@ -552,19 +654,19 @@
               </div>
 
               <!-- % Completado a Tempo -->
-              <div class="bg-white rounded-lg shadow p-6">
-                <div class="flex items-center justify-between mb-4">
-                  <div class="flex items-center">
-                    <div class="bg-blue-100 text-blue-600 rounded-full p-3 mr-4">
-                      <i class="fa-solid fa-check-circle text-xl"></i>
+              <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+                <div class="flex items-center justify-between mb-3 sm:mb-4">
+                  <div class="flex items-center min-w-0 flex-1">
+                    <div class="bg-blue-100 text-blue-600 rounded-full p-2 sm:p-3 mr-3 sm:mr-4 flex-shrink-0">
+                      <i class="fa-solid fa-check-circle text-lg sm:text-xl"></i>
                     </div>
-                    <div>
-                      <div class="text-sm text-gray-500">% Completado a Tempo</div>
-                      <div class="text-3xl font-bold text-gray-800">62%</div>
+                    <div class="min-w-0 flex-1">
+                      <div class="text-xs sm:text-sm text-gray-500">% Completado a Tempo</div>
+                      <div class="text-xl sm:text-3xl font-bold text-gray-800">62%</div>
                     </div>
                   </div>
-                  <div class="text-right">
-                    <div class="flex items-center text-red-500 text-sm">
+                  <div class="text-right flex-shrink-0 ml-2">
+                    <div class="flex items-center text-red-500 text-xs sm:text-sm">
                       <i class="fa-solid fa-arrow-down mr-1"></i>
                       <span>-28%</span>
                     </div>
@@ -614,6 +716,23 @@
       el.classList.toggle('mr-3');
     });
    });
+
+   // Mobile Sidebar Toggle
+   function toggleMobileSidebar() {
+     const sidebar = document.getElementById('sidebar');
+     const overlay = document.getElementById('mobileOverlay');
+     
+     sidebar.classList.toggle('mobile-open');
+     overlay.classList.toggle('show');
+   }
+   
+   function closeMobileSidebar() {
+     const sidebar = document.getElementById('sidebar');
+     const overlay = document.getElementById('mobileOverlay');
+     
+     sidebar.classList.remove('mobile-open');
+     overlay.classList.remove('show');
+   }
 
    // Settings Sidebar Toggle
    function toggleSettingsSidebar() {

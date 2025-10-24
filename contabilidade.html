@@ -34,11 +34,143 @@
   .sidebar-collapsed .sidebar-icon {
     margin-right: 0 !important;
   }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    /* Sidebar responsiva */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      height: 100vh;
+      z-index: 1000;
+      transition: left 0.3s ease;
+    }
+    
+    #sidebar.mobile-open {
+      left: 0;
+    }
+    
+    .mobile-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .mobile-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    #mainContent {
+      margin-left: 0;
+      width: 100%;
+    }
+    
+    /* Header responsivo */
+    header {
+      padding: 0 1rem;
+      height: auto;
+      min-height: 4rem;
+    }
+    
+    .dropdown-mobile {
+      right: 1rem;
+      width: calc(100vw - 2rem);
+      max-width: 320px;
+    }
+    
+    /* Main content responsivo */
+    main {
+      padding: 1rem;
+    }
+    
+    /* Cards responsivos */
+    .summary-cards {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .summary-cards .bg-white {
+      padding: 1rem;
+    }
+    
+    .summary-cards .text-2xl {
+      font-size: 1.5rem;
+    }
+    
+    .summary-cards .text-sm {
+      font-size: 0.75rem;
+    }
+    
+    /* Charts responsivos */
+    .charts-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .chart-container {
+      padding: 1rem;
+    }
+    
+    .chart-container canvas {
+      max-height: 200px;
+    }
+    
+    /* Settings sidebar responsivo */
+    #settingsSidebar {
+      width: 100%;
+      max-width: 100vw;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .summary-cards {
+      grid-template-columns: 1fr;
+    }
+    
+    .summary-cards .bg-white {
+      padding: 0.75rem;
+    }
+    
+    .summary-cards .text-2xl {
+      font-size: 1.25rem;
+    }
+    
+    .chart-container {
+      padding: 0.75rem;
+    }
+    
+    .chart-container canvas {
+      max-height: 150px;
+    }
+  }
+
+  @media (min-width: 769px) {
+    #sidebar {
+      position: relative;
+      left: 0;
+    }
+    
+    .mobile-overlay {
+      display: none;
+    }
+  }
   </style>
 
 </head>
 <body>
   <div id="container" class="flex h-screen bg-[#2C3E50]">
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="mobile-overlay" onclick="closeMobileSidebar()"></div>
+    
     <!-- Sidebar -->
     <aside id="sidebar" class="w-64 bg-[#2C3E50] text-white flex flex-col transition-all duration-300">
       <div class="flex items-center h-16 px-6 border-b border-gray-700">
@@ -235,7 +367,14 @@
 
       <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50] overflow-y-auto">
         <!-- Top Menu -->
-        <header class="flex items-center justify-end h-24 px-6 py-4 bg-[#2C3E50] text-white">
+        <header class="flex items-center justify-between h-24 px-6 py-4 bg-[#2C3E50] text-white">
+          <!-- Mobile Menu Button -->
+          <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-gray-700" onclick="toggleMobileSidebar()">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+          </button>
+          
           <div class="flex items-center space-x-6">
             <button class="text-white hover:text-blue-300">
               <i class="fa-solid fa-phone"></i>
@@ -250,7 +389,7 @@
               </span>
               
               <!-- Dropdown Menu -->
-              <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-mobile">
                 <div class="p-6">
                   <!-- Minha Conta Section -->
                   <div class="mb-4">
@@ -326,34 +465,34 @@
           </div>
         </header>
       <!-- Main Content -->
-      <main class="flex-1 px-6 pt-8 pb-6 bg-gray-100 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl">
+      <main class="flex-1 px-3 sm:px-6 pt-4 sm:pt-8 pb-4 sm:pb-6 bg-gray-100 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl">
         <!-- Page Title -->
-        <div class="mb-6">
-          <h1 class="text-3xl font-bold text-gray-800">Financeiro</h1>
-          <p class="text-gray-600 mt-2">Gerencie suas finanças e acompanhe o desempenho financeiro</p>
+        <div class="mb-4 sm:mb-6">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Financeiro</h1>
+          <p class="text-sm sm:text-base text-gray-600 mt-2">Gerencie suas finanças e acompanhe o desempenho financeiro</p>
         </div>
         
         <!-- Summary Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8 mt-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4 mb-6 sm:mb-8 mt-2 sm:mt-4 summary-cards">
           <!-- Transações Card -->
-          <a href="transacoes.html" class="bg-white rounded-lg shadow p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
-            <div class="text-2xl font-bold text-gray-800 mb-2">R$ 11.690,00</div>
-            <div class="text-sm text-gray-500 mb-3">Transações</div>
+          <a href="transacoes.html" class="bg-white rounded-lg shadow p-3 sm:p-4 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+            <div class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">R$ 11.690,00</div>
+            <div class="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">Transações</div>
             <div class="text-xs text-gray-400 mb-1">este mês</div>
             <div class="space-y-1">
               <div class="text-xs text-green-600">Ganhos: R$ 15.200,00</div>
               <div class="text-xs text-red-600">Despesas: R$ 3.510,00</div>
             </div>
-            <div class="w-full bg-gray-200 rounded-full h-1 mt-3">
+            <div class="w-full bg-gray-200 rounded-full h-1 mt-2 sm:mt-3">
               <div class="bg-pink-500 h-1 rounded-full" style="width: 75%"></div>
             </div>
           </a>
 
           <!-- Despesas Card -->
-          <a href="despesas.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+          <a href="despesas.html" class="bg-white rounded-lg shadow p-3 sm:p-4 flex flex-col justify-between h-28 sm:h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
             <div>
-              <div class="text-2xl font-bold text-gray-800 mb-2">R$ 2.340</div>
-              <div class="text-sm text-gray-500 mb-3">Despesas</div>
+              <div class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">R$ 2.340</div>
+              <div class="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">Despesas</div>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
               <div class="bg-red-500 h-1 rounded-full" style="width: 60%"></div>
@@ -361,10 +500,10 @@
           </a>
 
           <!-- Faturas Card -->
-          <a href="faturasContabilidade.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+          <a href="faturasContabilidade.html" class="bg-white rounded-lg shadow p-3 sm:p-4 flex flex-col justify-between h-28 sm:h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
             <div>
-              <div class="text-2xl font-bold text-gray-800 mb-2">12</div>
-              <div class="text-sm text-gray-500 mb-3">Faturas</div>
+              <div class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">12</div>
+              <div class="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">Faturas</div>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
               <div class="bg-purple-500 h-1 rounded-full" style="width: 40%"></div>
@@ -372,10 +511,10 @@
           </a>
 
           <!-- Folha de Pagamento Card -->
-          <a href="folhasdepagamentos.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+          <a href="folhasdepagamentos.html" class="bg-white rounded-lg shadow p-3 sm:p-4 flex flex-col justify-between h-28 sm:h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
             <div>
-              <div class="text-2xl font-bold text-gray-800 mb-2">R$ 8.500</div>
-              <div class="text-sm text-gray-500 mb-3">Folha de Pagamento</div>
+              <div class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">R$ 8.500</div>
+              <div class="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">Folha de Pagamento</div>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
               <div class="bg-yellow-500 h-1 rounded-full" style="width: 85%"></div>
@@ -383,10 +522,10 @@
           </a>
 
           <!-- Gorjetas Card -->
-          <a href="transacoes.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+          <a href="transacoes.html" class="bg-white rounded-lg shadow p-3 sm:p-4 flex flex-col justify-between h-28 sm:h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
             <div>
-              <div class="text-2xl font-bold text-gray-800 mb-2">R$ 890</div>
-              <div class="text-sm text-gray-500 mb-3">Gorjetas</div>
+              <div class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">R$ 890</div>
+              <div class="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">Gorjetas</div>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
               <div class="bg-green-500 h-1 rounded-full" style="width: 30%"></div>
@@ -394,10 +533,10 @@
           </a>
 
           <!-- Limpezas Card -->
-          <a href="cobrancasLimpezas.html" class="bg-white rounded-lg shadow p-4 flex flex-col justify-between h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
+          <a href="cobrancasLimpezas.html" class="bg-white rounded-lg shadow p-3 sm:p-4 flex flex-col justify-between h-28 sm:h-32 hover:shadow-lg transition-shadow duration-200 cursor-pointer">
             <div>
-              <div class="text-2xl font-bold text-gray-800 mb-2">47</div>
-              <div class="text-sm text-gray-500 mb-3">Limpezas</div>
+              <div class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">47</div>
+              <div class="text-xs sm:text-sm text-gray-500 mb-2 sm:mb-3">Limpezas</div>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-1 mt-auto">
               <div class="bg-blue-400 h-1 rounded-full" style="width: 70%"></div>
@@ -406,29 +545,29 @@
         </div>
 
         <!-- Charts Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 mb-4 sm:mb-6 charts-grid">
           <!-- Receitas Chart -->
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Receitas</h3>
+          <div class="bg-white rounded-lg shadow p-4 sm:p-6 chart-container">
+            <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Receitas</h3>
             <canvas id="receitasChart" width="400" height="200"></canvas>
           </div>
 
           <!-- Despesas Chart -->
-          <div class="bg-white rounded-lg shadow p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Despesas</h3>
+          <div class="bg-white rounded-lg shadow p-4 sm:p-6 chart-container">
+            <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Despesas</h3>
             <canvas id="despesasChart" width="400" height="200"></canvas>
           </div>
         </div>
 
         <!-- Bottom Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
           <!-- Left Column -->
-          <div class="space-y-6">
+          <div class="space-y-4 sm:space-y-6">
             <!-- Saldo Chart -->
-            <div class="bg-white rounded-lg shadow p-6">
-              <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-semibold text-gray-800">Saldo</h3>
-                <select class="px-3 py-1 border border-gray-300 rounded-lg text-sm">
+            <div class="bg-white rounded-lg shadow p-4 sm:p-6 chart-container">
+              <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 sm:mb-4 gap-2">
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800">Saldo</h3>
+                <select class="px-2 sm:px-3 py-1 border border-gray-300 rounded-lg text-xs sm:text-sm">
                   <option>Semanal</option>
                   <option>Mensal</option>
                   <option>Anual</option>
@@ -438,44 +577,44 @@
             </div>
 
             <!-- Saldo do Cliente List -->
-            <div class="bg-white rounded-lg shadow p-6">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Saldo do Cliente</h3>
-              <div class="space-y-3">
+            <div class="bg-white rounded-lg shadow p-4 sm:p-6">
+              <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Saldo do Cliente</h3>
+              <div class="space-y-2 sm:space-y-3">
                 <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span class="text-sm text-gray-600">Maria Silva</span>
-                  <span class="text-sm font-medium text-gray-800">R$ 250,00</span>
+                  <span class="text-xs sm:text-sm text-gray-600">Maria Silva</span>
+                  <span class="text-xs sm:text-sm font-medium text-gray-800">R$ 250,00</span>
                 </div>
                 <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span class="text-sm text-gray-600">João Santos</span>
-                  <span class="text-sm font-medium text-gray-800">R$ 180,00</span>
+                  <span class="text-xs sm:text-sm text-gray-600">João Santos</span>
+                  <span class="text-xs sm:text-sm font-medium text-gray-800">R$ 180,00</span>
                 </div>
                 <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span class="text-sm text-gray-600">Ana Costa</span>
-                  <span class="text-sm font-medium text-gray-800">R$ 320,00</span>
+                  <span class="text-xs sm:text-sm text-gray-600">Ana Costa</span>
+                  <span class="text-xs sm:text-sm font-medium text-gray-800">R$ 320,00</span>
                 </div>
                 <div class="flex justify-between items-center py-2 border-b border-gray-100">
-                  <span class="text-sm text-gray-600">Pedro Lima</span>
-                  <span class="text-sm font-medium text-gray-800">R$ 95,00</span>
+                  <span class="text-xs sm:text-sm text-gray-600">Pedro Lima</span>
+                  <span class="text-xs sm:text-sm font-medium text-gray-800">R$ 95,00</span>
                 </div>
                 <div class="flex justify-between items-center py-2">
-                  <span class="text-sm text-gray-600">Carla Mendes</span>
-                  <span class="text-sm font-medium text-gray-800">R$ 420,00</span>
+                  <span class="text-xs sm:text-sm text-gray-600">Carla Mendes</span>
+                  <span class="text-xs sm:text-sm font-medium text-gray-800">R$ 420,00</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Right Column -->
-          <div class="space-y-6">
+          <div class="space-y-4 sm:space-y-6">
             <!-- Top Categorias Chart -->
-            <div class="bg-white rounded-lg shadow p-6">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Top Categorias de Receita</h3>
+            <div class="bg-white rounded-lg shadow p-4 sm:p-6 chart-container">
+              <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Top Categorias de Receita</h3>
               <canvas id="categoriasChart" width="400" height="200"></canvas>
             </div>
 
             <!-- Distribuição de Transações Chart -->
-            <div class="bg-white rounded-lg shadow p-6">
-              <h3 class="text-lg font-semibold text-gray-800 mb-4">Distribuição de Transações</h3>
+            <div class="bg-white rounded-lg shadow p-4 sm:p-6 chart-container">
+              <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-3 sm:mb-4">Distribuição de Transações</h3>
               <canvas id="distribuicaoChart" width="400" height="200"></canvas>
             </div>
           </div>
@@ -696,6 +835,24 @@
        // Hide sidebar
        settingsSidebar.classList.add('translate-x-full');
      }
+   }
+
+   // Mobile Sidebar Toggle
+   function toggleMobileSidebar() {
+     const sidebar = document.getElementById('sidebar');
+     const overlay = document.getElementById('mobileOverlay');
+     
+     sidebar.classList.toggle('mobile-open');
+     overlay.classList.toggle('active');
+   }
+
+   // Close Mobile Sidebar
+   function closeMobileSidebar() {
+     const sidebar = document.getElementById('sidebar');
+     const overlay = document.getElementById('mobileOverlay');
+     
+     sidebar.classList.remove('mobile-open');
+     overlay.classList.remove('active');
    }
    </script>
  </body>
