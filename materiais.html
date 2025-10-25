@@ -79,6 +79,16 @@
       padding: 1rem;
     }
     
+    /* Header responsivo */
+    header {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    
+    header .ml-auto {
+      margin-left: auto;
+    }
+    
     /* Cards responsivos */
     .dashboard-card {
       margin-bottom: 1rem;
@@ -144,6 +154,24 @@
     .table-mobile th,
     .table-mobile td {
       padding: 0.5rem;
+    }
+    
+    /* Header mobile - ajustes específicos */
+    header {
+      padding: 0.75rem 1rem;
+    }
+    
+    header .flex.items-center.space-x-6 {
+      gap: 0.5rem;
+    }
+    
+    header .flex.items-center.space-x-6 button {
+      padding: 0.5rem;
+    }
+    
+    /* Nome do usuário em telas muito pequenas */
+    header .font-medium {
+      font-size: 0.875rem;
     }
   }
   
@@ -367,7 +395,8 @@
           <i class="fa-solid fa-bars text-xl"></i>
         </button>
         
-        <div class="flex items-center space-x-6">
+        <!-- Right side with user info and icons -->
+        <div class="flex items-center space-x-6 ml-auto">
           <button class="text-white hover:text-blue-300">
             <i class="fa-solid fa-phone"></i>
           </button>

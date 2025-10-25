@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faturas</title>
+  <title>Integrações</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome Icons -->
@@ -125,6 +125,31 @@
       width: 100%;
       max-width: none;
     }
+    
+    /* Integration cards mobile */
+    .integration-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    
+    .integration-card {
+      margin-bottom: 1rem;
+    }
+    
+    /* Botões mobile - tamanhos menores */
+    .integration-card button {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+    }
+    
+    .integration-card .flex.items-center.space-x-3 {
+      gap: 0.5rem;
+    }
+    
+    .integration-card .flex.items-center.space-x-3 button {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+    }
   }
   
   @media (max-width: 640px) {
@@ -164,6 +189,34 @@
     /* Nome do usuário em telas muito pequenas */
     header .font-medium {
       font-size: 0.875rem;
+    }
+    
+    /* Integration cards mobile - ajustes específicos */
+    .integration-card {
+      padding: 1rem;
+    }
+    
+    .integration-card h3 {
+      font-size: 1rem;
+    }
+    
+    .integration-card p {
+      font-size: 0.875rem;
+    }
+    
+    /* Botões ainda menores em telas muito pequenas */
+    .integration-card button {
+      padding: 0.375rem 0.5rem;
+      font-size: 0.7rem;
+    }
+    
+    .integration-card .flex.items-center.space-x-3 {
+      gap: 0.25rem;
+    }
+    
+    .integration-card .flex.items-center.space-x-3 button {
+      padding: 0.375rem 0.5rem;
+      font-size: 0.7rem;
     }
   }
   
@@ -283,7 +336,7 @@
      </aside>
 
      <!-- Main Content -->
-    <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50]">
+    <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50] overflow-hidden">
       <!-- Top Menu -->
        <header class="flex items-center justify-between h-16 px-6 bg-[#2C3E50] text-white flex-shrink-0">
          <!-- Mobile Menu Button -->
@@ -306,7 +359,7 @@
              </span>
             
             <!-- Dropdown Menu -->
-            <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-mobile">
               <div class="p-6">
                 <!-- Minha Conta Section -->
                 <div class="mb-4">
@@ -362,261 +415,205 @@
       <main class="flex-1 p-6 bg-gray-100 rounded-tl-2xl rounded-tr-2xl rounded-bl-2xl rounded-br-2xl overflow-y-auto">
         <!-- Header Section -->
         <div class="mb-6">
-          <h1 class="text-3xl font-bold text-gray-800 mb-2">Faturas</h1>
+          <h1 class="text-3xl font-bold text-gray-800 mb-2">Integrações</h1>
           <p class="text-gray-600">Gerencie suas informações pessoais</p>
         </div>
 
-        <div class="space-y-6">
-          <!-- Formatação Card -->
-          <div class="bg-white rounded-lg shadow-lg p-6">
-            <div class="flex items-center mb-6">
-              <div class="w-8 h-8 bg-purple-500 rounded flex items-center justify-center mr-3">
-                <i class="fa-solid fa-palette text-white text-sm"></i>
-              </div>
-              <h2 class="text-lg font-bold text-gray-800">Formatação</h2>
-            </div>
-
-            <!-- Número Section -->
-            <div class="mb-6">
-              <h3 class="text-base font-semibold text-gray-800 mb-4"># Número</h3>
-              
-              <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Formato do Número</label>
-                <p class="text-sm text-gray-500 mb-4">O número será incrementado automaticamente para cada nova fatura</p>
-                
-                <div class="flex space-x-2">
-                  <button class="px-4 py-2 bg-purple-600 text-white rounded-full text-sm font-medium">
-                    INVOICE
-                  </button>
-                  <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-full text-sm font-medium">
-                    CLIENT-INVOICE
-                  </button>
-                </div>
-              </div>
-
-              <div class="flex items-center space-x-4">
-                <div class="flex-1">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Número Inicial da Fatura</label>
-                  <input type="text" value="1001" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                </div>
-                <div class="flex items-end">
-                  <button class="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                    Confirmar
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Templates Card -->
-          <div class="bg-white rounded-lg shadow-lg p-6">
-            <div class="flex items-center mb-6">
-              <div class="w-8 h-8 bg-blue-500 rounded flex items-center justify-center mr-3">
-                <i class="fa-solid fa-file-text text-white text-sm"></i>
-              </div>
-              <h2 class="text-lg font-bold text-gray-800">Templates</h2>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <!-- Cabeçalho da Fatura -->
-              <div class="bg-gray-50 rounded-lg p-4 relative">
-                <button onclick="openModal('headerModal')" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
-                  <i class="fa-solid fa-pencil text-sm"></i>
-                </button>
-                <h3 class="text-sm font-semibold text-gray-800 mb-3">Cabeçalho da Fatura</h3>
-                <div class="text-xs text-gray-600 space-y-1">
-                  <div>Empresa XYZ Ltda</div>
-                  <div>Rua das Flores, 123 - Centro</div>
-                  <div>Tel: (11) 9999-9999</div>
-                  <div>email@empresa.com</div>
-                </div>
-              </div>
-
-              <!-- Itens de Limpeza -->
-              <div class="bg-gray-50 rounded-lg p-4 relative">
-                <button onclick="openModal('itemsModal')" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
-                  <i class="fa-solid fa-pencil text-sm"></i>
-                </button>
-                <h3 class="text-sm font-semibold text-gray-800 mb-3">Itens de Limpeza</h3>
-                <div class="text-xs text-gray-600 space-y-1">
-                  <div>Data: (data_servico)</div>
-                  <div>Frequência: (frequencia)</div>
-                  <div>Serviços realizados: (lista_servicos)</div>
-                </div>
-              </div>
-
-              <!-- Rodapé da Fatura -->
-              <div class="bg-gray-50 rounded-lg p-4 relative">
-                <button onclick="openModal('footerModal')" class="absolute top-2 right-2 text-gray-400 hover:text-gray-600">
-                  <i class="fa-solid fa-pencil text-sm"></i>
-                </button>
-                <h3 class="text-sm font-semibold text-gray-800 mb-3">Rodapé da Fatura</h3>
-                <div class="text-xs text-gray-600 space-y-1">
-                  <div>Prazo de pagamento: 30 dias</div>
-                  <div>Obrigado pela preferência!</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Cobranças Card -->
-          <div class="bg-white rounded-lg shadow-lg p-6">
-            <div class="flex items-center mb-6">
-              <div class="w-8 h-8 bg-green-500 rounded flex items-center justify-center mr-3">
-                <i class="fa-solid fa-credit-card text-white text-sm"></i>
-              </div>
-              <h2 class="text-lg font-bold text-gray-800">Cobranças</h2>
-            </div>
-
-            <div class="space-y-6">
-              <!-- Imposto Section -->
-              <div>
-                <h3 class="text-base font-semibold text-gray-800 mb-4">% Imposto</h3>
-                <div class="flex items-center justify-between">
+        <div class="space-y-8">
+          <!-- Processamento de Pagamento Section -->
+          <div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Processamento de Pagamento</h2>
+            <p class="text-gray-600 mb-6">Receba pagamentos facilmente usando plataformas seguras de pagamento.</p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 integration-grid">
+              <!-- GoDaddy Payments Card -->
+              <div class="bg-white rounded-lg shadow-lg p-6 integration-card">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mr-4">
+                    <i class="fa-solid fa-credit-card text-white text-xl"></i>
+                  </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Ativar</label>
-                    <p class="text-sm text-gray-500">Aplicar imposto na fatura</p>
+                    <h3 class="text-lg font-bold text-gray-800">GoDaddy Payments</h3>
+                    <p class="text-sm text-gray-600">Sistema de pagamentos online</p>
                   </div>
-                  <div class="w-12 h-6 bg-gray-300 rounded-full relative">
-                    <div class="w-5 h-5 bg-white rounded-full absolute top-0.5 left-0.5 transition-transform"></div>
+                </div>
+                
+                <div class="mb-4">
+                  <button class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                    <span class="mr-2">CONNECTED</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                  </button>
+                </div>
+                
+                <div class="space-y-2 text-sm">
+                  <div class="flex items-center">
+                    <div class="w-2 h-2 bg-green-500 rounded-full mr-2"></div>
+                    <span class="text-gray-600">Ativo desde 15/01/2024</span>
                   </div>
+                  <div class="text-gray-500">Última sincronização: 2 min atrás</div>
                 </div>
               </div>
 
-              <!-- Gorjeta Section -->
-              <div>
-                <h3 class="text-base font-semibold text-gray-800 mb-4">Gorjeta</h3>
-                
-                <div class="flex items-center justify-between mb-4">
-                  <label class="text-sm font-medium text-gray-700">Ativar</label>
-                  <div class="w-12 h-6 bg-green-500 rounded-full relative">
-                    <div class="w-5 h-5 bg-white rounded-full absolute top-0.5 right-0.5 transition-transform"></div>
+              <!-- Features Card -->
+              <div class="bg-white rounded-lg shadow-lg p-6 integration-card">
+                <h3 class="text-lg font-bold text-gray-800 mb-4">Features</h3>
+                <div class="space-y-3">
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Taxa de processamento</span>
+                    <span class="text-green-600 font-medium">2.9% + R$ 0,30</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Carteiras digitais</span>
+                    <span class="text-green-600 font-medium">Suportado</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">PIX</span>
+                    <span class="text-green-600 font-medium">Disponível</span>
+                  </div>
+                  <div class="flex justify-between items-center">
+                    <span class="text-gray-600">Boleto</span>
+                    <span class="text-green-600 font-medium">Disponível</span>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
 
-                <div class="mb-4">
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Opções de % de gorjeta</label>
+          <!-- Mensagens Section -->
+          <div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Mensagens</h2>
+            <p class="text-gray-600 mb-6">Conecte plataformas de comunicação para melhor atendimento ao cliente.</p>
+            
+            <div class="space-y-4">
+              <!-- Talkpad Card -->
+              <div class="bg-white rounded-lg shadow-lg p-6 integration-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mr-4">
+                      <i class="fa-solid fa-comments text-white text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-lg font-bold text-gray-800">Talkpad</h3>
+                      <p class="text-sm text-gray-600">Plataforma de comunicação empresarial</p>
+                    </div>
+                  </div>
                   <div class="flex items-center space-x-3">
-                    <input type="text" value="10" class="w-20 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <button class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm">
-                      + Adicionar
+                    <button class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                      <span class="mr-2">CONNECTED</span>
+                      <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                      Instruções
                     </button>
                   </div>
                 </div>
-
-                <div class="flex space-x-2">
-                  <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm flex items-center">
-                    10%
-                    <i class="fa-solid fa-x ml-2 text-xs"></i>
-                  </span>
-                  <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm flex items-center">
-                    15%
-                    <i class="fa-solid fa-x ml-2 text-xs"></i>
-                  </span>
-                  <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm flex items-center">
-                    20%
-                    <i class="fa-solid fa-x ml-2 text-xs"></i>
-                  </span>
+                <div class="mt-4 text-sm text-gray-600">
+                  <div class="flex items-center">
+                    <i class="fa-solid fa-phone mr-2"></i>
+                    <span>+55 11 90999-9999</span>
+                  </div>
                 </div>
               </div>
+
+              <!-- Dialpad Card -->
+              <div class="bg-white rounded-lg shadow-lg p-6 integration-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <div class="w-12 h-12 bg-teal-500 rounded-lg flex items-center justify-center mr-4">
+                      <i class="fa-solid fa-phone text-white text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-lg font-bold text-gray-800">Dialpad</h3>
+                      <p class="text-sm text-gray-600">Sistema de telefonia em nuvem</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <button class="flex items-center px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-colors">
+                      <span class="mr-2">DISCONNECTED</span>
+                      <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                      Instruções
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- RingCentral Card -->
+              <div class="bg-white rounded-lg shadow-lg p-6 integration-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mr-4">
+                      <i class="fa-solid fa-headset text-white text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-lg font-bold text-gray-800">RingCentral</h3>
+                      <p class="text-sm text-gray-600">Comunicações unificadas na nuvem</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <button class="flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors">
+                      <span class="mr-2">CONNECTED</span>
+                      <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                      Instruções
+                    </button>
+                  </div>
+                </div>
+                <div class="mt-4 text-sm text-gray-600">
+                  <div class="flex items-center">
+                    <i class="fa-solid fa-phone mr-2"></i>
+                    <span>+55 11 77777-7777</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- OpenPhone Card -->
+              <div class="bg-white rounded-lg shadow-lg p-6 integration-card">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mr-4">
+                      <i class="fa-solid fa-phone text-white text-xl"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-lg font-bold text-gray-800">OpenPhone</h3>
+                      <p class="text-sm text-gray-600">Telefone comercial para equipes</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center space-x-3">
+                    <button class="flex items-center px-4 py-2 bg-gray-400 text-white rounded-lg hover:bg-gray-500 transition-colors">
+                      <span class="mr-2">DISCONNECTED</span>
+                      <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                      Instruções
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Outros Section -->
+          <div>
+            <h2 class="text-xl font-bold text-gray-800 mb-2">Outros</h2>
+            <p class="text-gray-600 mb-6">Espaço reservado para futuras integrações e serviços adicionais.</p>
+            
+            <div class="bg-white rounded-lg shadow-lg p-8 text-center integration-card">
+              <div class="w-20 h-20 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fa-solid fa-puzzle-piece text-gray-400 text-3xl"></i>
+              </div>
+              <h3 class="text-xl font-bold text-gray-800 mb-2">Novas integrações em breve</h3>
+              <p class="text-gray-600 mb-6">Estamos trabalhando para adicionar mais integrações úteis para seu negócio.</p>
+              <button class="flex items-center px-6 py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors mx-auto">
+                <i class="fa-solid fa-bell mr-2"></i>
+                Notificar quando disponível
+              </button>
             </div>
           </div>
         </div>
       </main>
-    </div>
-  </div>
-
-  <!-- Modals -->
-  
-  <!-- Cabeçalho da Fatura Modal -->
-  <div id="headerModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-96 max-w-full mx-4">
-      <h3 class="text-lg font-bold text-gray-800 mb-4">Cabeçalho da Fatura</h3>
-      
-      <div class="mb-4">
-        <textarea rows="6" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none">CompanyAddress
-CompanyEmail
-CompanyPhone</textarea>
-      </div>
-      
-      <div class="flex justify-end space-x-2 mb-4">
-        <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-          Endereço da Empresa
-        </button>
-        <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-          Email da Empresa
-        </button>
-        <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-          Telefone da Empresa
-        </button>
-      </div>
-      
-      <div class="flex justify-end space-x-3">
-        <button onclick="closeModal('headerModal')" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
-          Cancelar
-        </button>
-        <button onclick="closeModal('headerModal')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-          Salvar
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Itens de Limpeza Modal -->
-  <div id="itemsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-96 max-w-full mx-4">
-      <h3 class="text-lg font-bold text-gray-800 mb-4">Itens de Limpeza</h3>
-      
-      <div class="mb-4">
-        <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none">{JobDate} - {Frequency} Cleaning</textarea>
-      </div>
-      
-      <div class="flex flex-wrap gap-2 mb-4">
-        <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-          Data do Serviço
-        </button>
-        <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-          Tipo de Serviço
-        </button>
-        <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-          Frequência
-        </button>
-        <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-          Endereço
-        </button>
-        <button class="px-3 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-          Referência do Endereço
-        </button>
-      </div>
-      
-      <div class="flex justify-end space-x-3">
-        <button onclick="closeModal('itemsModal')" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
-          Cancelar
-        </button>
-        <button onclick="closeModal('itemsModal')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-          Salvar
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Rodapé da Fatura Modal -->
-  <div id="footerModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg p-6 w-96 max-w-full mx-4">
-      <h3 class="text-lg font-bold text-gray-800 mb-4">Rodapé da Fatura</h3>
-      
-      <div class="mb-4">
-        <textarea rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none">Payment is due max 7 days after invoice without deduction.</textarea>
-      </div>
-      
-      <div class="flex justify-end space-x-3">
-        <button onclick="closeModal('footerModal')" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400">
-          Cancelar
-        </button>
-        <button onclick="closeModal('footerModal')" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
-          Salvar
-        </button>
-      </div>
     </div>
   </div>
 
@@ -672,22 +669,6 @@ CompanyPhone</textarea>
        settingsSidebar.classList.add('translate-x-full');
      }
    }
-
-   // Modal functions
-   function openModal(modalId) {
-     document.getElementById(modalId).classList.remove('hidden');
-   }
-
-   function closeModal(modalId) {
-     document.getElementById(modalId).classList.add('hidden');
-   }
-
-   // Close modal when clicking outside
-   document.addEventListener('click', function(e) {
-     if (e.target.classList.contains('bg-black')) {
-       e.target.classList.add('hidden');
-     }
-   });
    </script>
  </body>
  </html>

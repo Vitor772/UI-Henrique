@@ -83,10 +83,309 @@
     background-color: #f9fafb;
     color: #9ca3af;
   }
+
+  /* Mobile Navigation Container */
+  .mobile-nav-container {
+    display: none;
+  }
+  
+  /* Mobile Agenda Layout */
+  .mobile-agenda-container {
+    display: none;
+  }
+  
+  .day-card {
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 1rem;
+  }
+  
+  .day-header {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #9ca3af;
+    margin-bottom: 0.5rem;
+  }
+  
+  .day-summary {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-bottom: 1rem;
+  }
+  
+  .cleaning-item {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .cleaning-item.purple {
+    background-color: #e9d5ff;
+    color: #6b46c1;
+  }
+  
+  .cleaning-item.orange {
+    background-color: #fed7aa;
+    color: #ea580c;
+  }
+  
+  .cleaning-item.blue {
+    background-color: #dbeafe;
+    color: #2563eb;
+  }
+  
+  .cleaning-item.gray {
+    background-color: #f3f4f6;
+    color: #6b7280;
+  }
+  
+  .cleaning-item input[type="checkbox"] {
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.75rem;
+    accent-color: #6b46c1;
+  }
+  
+  .team-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background-color: #f3f4f6;
+    color: #6b7280;
+    border-radius: 0.5rem;
+    font-weight: 500;
+  }
+  
+  .team-jobs {
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+
+  /* Responsividade para mobile */
+  @media (max-width: 768px) {
+    /* Hide desktop navigation */
+    .nav-mobile {
+      display: none !important;
+    }
+    
+    /* Show mobile navigation */
+    .mobile-nav-container {
+      display: block;
+    }
+    
+    /* Hide desktop calendar */
+    .calendar-mobile {
+      display: none !important;
+    }
+    
+    /* Show mobile agenda */
+    .mobile-agenda-container {
+      display: block;
+    }
+    
+    /* Sidebar mobile */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      height: 100vh;
+      z-index: 1000;
+      transition: left 0.3s ease;
+    }
+    
+    #sidebar.mobile-open {
+      left: 0;
+    }
+    
+    /* Overlay para mobile */
+    .mobile-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+    
+    .mobile-overlay.show {
+      display: block;
+    }
+    
+    /* Main content mobile */
+    #mainContent {
+      margin-left: 0;
+      width: 100%;
+    }
+    
+    /* Header responsivo */
+    header {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    
+    header .ml-auto {
+      margin-left: auto;
+    }
+    
+    /* Settings sidebar mobile */
+    #settingsSidebar {
+      width: 100%;
+      max-width: 100vw;
+    }
+    
+    /* Dropdown mobile */
+    .dropdown-mobile {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 320px;
+      height: 100vh;
+      z-index: 1001;
+    }
+    
+    /* Navigation bar mobile */
+    .nav-mobile {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .nav-mobile .flex.items-center.justify-between {
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    /* Month navigation mobile */
+    .month-nav-mobile {
+      width: 100%;
+      justify-content: center;
+    }
+    
+    /* Action controls mobile */
+    .action-controls-mobile {
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+    }
+    
+    .action-controls-mobile .relative {
+      width: 100%;
+    }
+    
+    .action-controls-mobile input {
+      width: 100%;
+    }
+    
+    .action-controls-mobile .flex.items-center.space-x-3 {
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+    }
+    
+    .action-controls-mobile button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    /* Header mobile - ajustes específicos */
+    header {
+      padding: 0.75rem 1rem;
+    }
+    
+    header .flex.items-center.space-x-6 {
+      gap: 0.5rem;
+    }
+    
+    header .flex.items-center.space-x-6 button {
+      padding: 0.5rem;
+    }
+    
+    /* Nome do usuário em telas muito pequenas */
+    header .font-medium {
+      font-size: 0.875rem;
+    }
+    
+    /* Calendar mobile - ajustes específicos */
+    .calendar-day {
+      min-height: 60px;
+      padding: 0.5rem;
+    }
+    
+    .calendar-day .text-right {
+      font-size: 0.75rem;
+    }
+    
+    .calendar-day .text-xs {
+      font-size: 0.625rem;
+    }
+    
+    .appointment-item {
+      font-size: 9px;
+      padding: 1px 3px;
+      margin: 0.25px 0;
+    }
+    
+    .appointment-item input {
+      width: 8px;
+      height: 8px;
+    }
+    
+    /* Navigation mobile - ajustes específicos */
+    .nav-mobile {
+      padding: 1rem;
+    }
+    
+    .month-nav-mobile .px-6 {
+      padding: 0.5rem 1rem;
+    }
+    
+    .month-nav-mobile .text-base {
+      font-size: 0.875rem;
+    }
+    
+    .action-controls-mobile input {
+      font-size: 0.875rem;
+      padding: 0.5rem;
+    }
+    
+    .action-controls-mobile button {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.75rem;
+    }
+  }
+  
+  @media (min-width: 769px) {
+    /* Desktop: sidebar normal */
+    #sidebar {
+      position: relative;
+      left: 0;
+    }
+    
+    .mobile-overlay {
+      display: none !important;
+    }
+  }
+  
+  /* Transições suaves */
+  .transition-all {
+    transition: all 0.3s ease;
+  }
   </style>
 </head>
 <body>
   <div id="container" class="flex h-screen bg-[#2C3E50]">
+    <!-- Mobile Overlay -->
+    <div id="mobileOverlay" class="mobile-overlay" onclick="closeMobileSidebar()"></div>
+    
     <!-- Sidebar -->
     <aside id="sidebar" class="w-64 bg-[#2C3E50] text-white flex flex-col transition-all duration-300">
       <div class="flex items-center h-16 px-6 border-b border-gray-700">
@@ -278,8 +577,14 @@
      <!-- Main Content -->
     <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50] overflow-y-auto">
       <!-- Top Menu -->
-       <header class="flex items-center justify-end h-16 px-6 bg-[#2C3E50] text-white">
-         <div class="flex items-center space-x-6">
+       <header class="flex items-center justify-between h-16 px-6 bg-[#2C3E50] text-white">
+         <!-- Mobile Menu Button -->
+         <button id="mobileMenuBtn" class="lg:hidden text-white hover:text-blue-300 p-2" onclick="toggleMobileSidebar()">
+           <i class="fa-solid fa-bars text-xl"></i>
+         </button>
+         
+         <!-- Right side with user info and icons -->
+         <div class="flex items-center space-x-6 ml-auto">
            <button class="text-white hover:text-blue-300">
              <i class="fa-solid fa-phone"></i>
            </button>
@@ -293,7 +598,7 @@
              </span>
             
             <!-- Dropdown Menu -->
-            <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div class="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50 dropdown-mobile">
               <div class="p-6">
                 <!-- Minha Conta Section -->
                 <div class="mb-4">
@@ -353,11 +658,11 @@
           <p class="text-gray-600">Agendamento de serviços</p>
         </div>
 
-        <!-- Navigation Bar -->
-        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+        <!-- Desktop Navigation Bar -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6 nav-mobile">
           <div class="flex items-center justify-between">
             <!-- Month Navigation -->
-            <div class="bg-white border border-gray-200 rounded-lg flex items-center">
+            <div class="bg-white border border-gray-200 rounded-lg flex items-center month-nav-mobile">
               <button class="w-10 h-10 border-r border-gray-200 flex items-center justify-center hover:bg-gray-50">
                 <i class="fa-solid fa-chevron-left text-gray-600"></i>
               </button>
@@ -370,7 +675,7 @@
             </div>
 
             <!-- Action Controls -->
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 action-controls-mobile">
               <!-- Search Input -->
               <div class="relative">
                 <input type="text" placeholder="" class="w-64 pl-10 pr-4 py-2 border border-gray-200 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
@@ -399,8 +704,46 @@
           </div>
         </div>
 
-        <!-- Calendar Grid -->
-        <div class="bg-white rounded-lg shadow overflow-hidden">
+        <!-- Mobile Navigation Bar -->
+        <div class="mobile-nav-container bg-white rounded-lg shadow-sm border border-gray-200 p-2 mb-6">
+          <div class="flex items-center justify-between gap-1">
+            <!-- Groups Button -->
+            <button class="w-8 h-8 border border-gray-200 rounded flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-users text-gray-600 text-sm"></i>
+            </button>
+            
+            <!-- Calendar Button -->
+            <button class="w-8 h-8 border border-gray-200 rounded flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-calendar-days text-gray-600 text-sm"></i>
+            </button>
+            
+            <!-- Month Navigation -->
+            <div class="flex items-center border border-gray-200 rounded px-2 py-1 flex-1 mx-1">
+              <button class="w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded transition-colors">
+                <i class="fa-solid fa-chevron-left text-gray-600 text-xs"></i>
+              </button>
+              <div class="flex-1 text-center">
+                <span class="text-gray-800 font-bold text-xs uppercase">OUTUBRO 2025</span>
+              </div>
+              <button class="w-6 h-6 flex items-center justify-center hover:bg-gray-50 rounded transition-colors">
+                <i class="fa-solid fa-chevron-right text-gray-600 text-xs"></i>
+              </button>
+            </div>
+            
+            <!-- Search Button -->
+            <button class="w-8 h-8 border border-gray-200 rounded flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-search text-gray-600 text-sm"></i>
+            </button>
+            
+            <!-- Menu Button -->
+            <button class="w-8 h-8 border border-gray-200 rounded flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <i class="fa-solid fa-bars text-gray-600 text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Desktop Calendar Grid -->
+        <div class="bg-white rounded-lg shadow overflow-hidden calendar-mobile">
           <!-- Calendar Header -->
           <div class="grid grid-cols-7 bg-gray-50">
             <div class="p-3 text-center text-sm font-medium text-gray-700">Dom</div>
@@ -726,6 +1069,156 @@
             </div>
           </div>
         </div>
+
+        <!-- Mobile Agenda List -->
+        <div class="mobile-agenda-container bg-white rounded-lg shadow overflow-hidden">
+          <!-- Day 1 - QUARTA 1 -->
+          <div class="day-card">
+            <div class="day-header">QUARTA 1</div>
+            <div class="day-summary">4 Limpezas</div>
+            
+            <div class="cleaning-item purple">
+              <input type="checkbox" checked>
+              <span>Alix Venz</span>
+            </div>
+            
+            <div class="cleaning-item orange">
+              <input type="checkbox" checked>
+              <span>Fabilex Rivone</span>
+            </div>
+            
+            <div class="cleaning-item orange">
+              <input type="checkbox" checked>
+              <span>Fabilex Rivone</span>
+            </div>
+            
+            <div class="cleaning-item blue">
+              <input type="checkbox" checked>
+              <span>Margaret jones</span>
+            </div>
+          </div>
+
+          <!-- Day 2 - QUINTA 2 -->
+          <div class="day-card">
+            <div class="day-header">QUINTA 2</div>
+            <div class="day-summary">1 Limpezas</div>
+            
+            <div class="team-item">
+              <span>EQUIPE 1</span>
+              <span class="team-jobs">0 Limpezas</span>
+            </div>
+            
+            <div class="team-item">
+              <span>EQUIPE 2</span>
+              <span class="team-jobs">0 Limpezas</span>
+            </div>
+            
+            <div class="cleaning-item blue">
+              <input type="checkbox" checked>
+              <span>Margaret jones</span>
+            </div>
+          </div>
+
+          <!-- Day 3 - SEXTA 3 -->
+          <div class="day-card">
+            <div class="day-header">SEXTA 3</div>
+            <div class="day-summary">3 Limpezas</div>
+            
+            <div class="cleaning-item purple">
+              <input type="checkbox" checked>
+              <span>Alix Venz</span>
+            </div>
+            
+            <div class="cleaning-item orange">
+              <input type="checkbox" checked>
+              <span>Amandelia paulini</span>
+            </div>
+            
+            <div class="cleaning-item blue">
+              <input type="checkbox" checked>
+              <span>Margaret jones</span>
+            </div>
+          </div>
+
+          <!-- Day 4 - SÁBADO 4 -->
+          <div class="day-card">
+            <div class="day-header">SÁBADO 4</div>
+            <div class="day-summary">1 Limpezas</div>
+            
+            <div class="team-item">
+              <span>EQUIPE 1</span>
+              <span class="team-jobs">0 Limpezas</span>
+            </div>
+            
+            <div class="team-item">
+              <span>EQUIPE 2</span>
+              <span class="team-jobs">0 Limpezas</span>
+            </div>
+            
+            <div class="cleaning-item blue">
+              <input type="checkbox" checked>
+              <span>Margaret jones</span>
+            </div>
+          </div>
+
+          <!-- Day 5 - DOMINGO 5 -->
+          <div class="day-card">
+            <div class="day-header">DOMINGO 5</div>
+            <div class="day-summary">2 Limpezas</div>
+            
+            <div class="cleaning-item purple">
+              <input type="checkbox" checked>
+              <span>Alix Venz</span>
+            </div>
+            
+            <div class="team-item">
+              <span>EQUIPE 2</span>
+              <span class="team-jobs">0 Limpezas</span>
+            </div>
+            
+            <div class="cleaning-item blue">
+              <input type="checkbox" checked>
+              <span>Margaret jones</span>
+            </div>
+          </div>
+
+          <!-- Day 6 - SEGUNDA 6 -->
+          <div class="day-card">
+            <div class="day-header">SEGUNDA 6</div>
+            <div class="day-summary">1 Limpezas</div>
+            
+            <div class="team-item">
+              <span>EQUIPE 1</span>
+              <span class="team-jobs">0 Limpezas</span>
+            </div>
+            
+            <div class="team-item">
+              <span>EQUIPE 2</span>
+              <span class="team-jobs">0 Limpezas</span>
+            </div>
+            
+            <div class="cleaning-item blue">
+              <input type="checkbox" checked>
+              <span>Margaret jones</span>
+            </div>
+          </div>
+
+          <!-- Day 7 - TERÇA 7 -->
+          <div class="day-card">
+            <div class="day-header">TERÇA 7</div>
+            <div class="day-summary">2 Limpezas</div>
+            
+            <div class="cleaning-item purple">
+              <input type="checkbox" checked>
+              <span>Margaret jones</span>
+            </div>
+            
+            <div class="cleaning-item orange">
+              <input type="checkbox" checked>
+              <span>Alix Venz</span>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   </div>
@@ -752,6 +1245,23 @@
       el.classList.toggle('mr-3');
     });
    });
+
+   // Mobile Sidebar Toggle
+   function toggleMobileSidebar() {
+     const sidebar = document.getElementById('sidebar');
+     const overlay = document.getElementById('mobileOverlay');
+     
+     sidebar.classList.toggle('mobile-open');
+     overlay.classList.toggle('show');
+   }
+   
+   function closeMobileSidebar() {
+     const sidebar = document.getElementById('sidebar');
+     const overlay = document.getElementById('mobileOverlay');
+     
+     sidebar.classList.remove('mobile-open');
+     overlay.classList.remove('show');
+   }
 
    // Settings Sidebar Toggle
    function toggleSettingsSidebar() {

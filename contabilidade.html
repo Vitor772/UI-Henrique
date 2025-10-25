@@ -79,6 +79,12 @@
       padding: 0 1rem;
       height: auto;
       min-height: 4rem;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    
+    header .ml-auto {
+      margin-left: auto;
     }
     
     .dropdown-mobile {
@@ -150,6 +156,24 @@
     
     .chart-container canvas {
       max-height: 150px;
+    }
+    
+    /* Header mobile - ajustes específicos */
+    header {
+      padding: 0.75rem 1rem;
+    }
+    
+    header .flex.items-center.space-x-6 {
+      gap: 0.5rem;
+    }
+    
+    header .flex.items-center.space-x-6 button {
+      padding: 0.5rem;
+    }
+    
+    /* Nome do usuário em telas muito pequenas */
+    header .font-medium {
+      font-size: 0.875rem;
     }
   }
 
@@ -367,23 +391,22 @@
 
       <div id="mainContent" class="flex-1 flex flex-col transition-all duration-300 bg-[#2C3E50] overflow-y-auto">
         <!-- Top Menu -->
-        <header class="flex items-center justify-between h-24 px-6 py-4 bg-[#2C3E50] text-white">
+        <header class="flex items-center justify-between h-16 px-6 bg-[#2C3E50] text-white flex-shrink-0">
           <!-- Mobile Menu Button -->
-          <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg hover:bg-gray-700" onclick="toggleMobileSidebar()">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-            </svg>
+          <button id="mobileMenuBtn" class="lg:hidden text-white hover:text-blue-300 p-2" onclick="toggleMobileSidebar()">
+            <i class="fa-solid fa-bars text-xl"></i>
           </button>
           
-          <div class="flex items-center space-x-6">
+          <!-- Right side with user info and icons -->
+          <div class="flex items-center space-x-6 ml-auto">
             <button class="text-white hover:text-blue-300">
               <i class="fa-solid fa-phone"></i>
             </button>
             <button class="text-white hover:text-blue-300">
               <i class="fa-regular fa-bell"></i>
             </button>
-            <span class="font-medium">Henrique</span>
             <div class="relative group flex items-center space-x-2">
+              <span class="font-medium cursor-pointer">Henrique</span>
               <span class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                 <i class="fa-regular fa-user text-gray-500 text-lg"></i>
               </span>
